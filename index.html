@@ -10,13 +10,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Thumb Arena">
-  <title>Thumb Arena T-Engine</title>
+  <title>Thumb Arena Console • T-Engine</title>
 
   <style>
     :root {
       --bg: #101328;
-      --panel: rgba(37, 42, 80, 0.95);
-      --line: rgba(255, 255, 255, 0.16);
+      --panel: rgba(37, 42, 80, .96);
+      --panel2: rgba(18, 21, 45, .96);
+      --line: rgba(255,255,255,.16);
       --text: #f8f9ff;
       --muted: #bbc3e5;
       --cyan: #57e5ff;
@@ -27,7 +28,7 @@
       --red: #ff5372;
       --safe-top: max(12px, env(safe-area-inset-top));
       --safe-bottom: max(12px, env(safe-area-inset-bottom));
-      --shadow: 0 14px 34px rgba(0, 0, 0, 0.34);
+      --shadow: 0 14px 34px rgba(0,0,0,.34);
     }
 
     * {
@@ -44,7 +45,13 @@
       overscroll-behavior: none;
       background: #060713;
       color: var(--text);
-      font-family: ui-rounded, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family:
+        ui-rounded,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
       user-select: none;
       -webkit-user-select: none;
     }
@@ -63,15 +70,27 @@
       margin: 0 auto;
       overflow: hidden;
       background:
-        radial-gradient(circle at 12% 10%, rgba(87, 229, 255, 0.16), transparent 30%),
-        radial-gradient(circle at 90% 18%, rgba(173, 125, 255, 0.15), transparent 28%),
-        linear-gradient(155deg, #101328, #25194d);
+        radial-gradient(
+          circle at 12% 10%,
+          rgba(87,229,255,.16),
+          transparent 30%
+        ),
+        radial-gradient(
+          circle at 90% 18%,
+          rgba(173,125,255,.15),
+          transparent 28%
+        ),
+        linear-gradient(
+          155deg,
+          #101328,
+          #25194d
+        );
     }
 
     .screen {
       position: absolute;
-      z-index: 2;
       inset: 0;
+      z-index: 2;
       display: none;
       overflow: hidden;
       padding: var(--safe-top) 10px var(--safe-bottom);
@@ -80,6 +99,217 @@
     .screen.active {
       display: flex;
       flex-direction: column;
+    }
+
+    .console-header {
+      display: flex;
+      min-height: 70px;
+      padding: 0 5px 10px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      min-width: 0;
+    }
+
+    .brand small {
+      display: block;
+      color: var(--cyan);
+      font-size: .61rem;
+      font-weight: 1000;
+      letter-spacing: .13em;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 1.28rem;
+      font-weight: 1000;
+      letter-spacing: -.05em;
+    }
+
+    .profile-chip {
+      flex: 0 0 auto;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      font-size: .68rem;
+      font-weight: 900;
+      text-align: right;
+      background: var(--panel);
+    }
+
+    .profile-chip b {
+      display: block;
+      color: var(--gold);
+      font-size: .85rem;
+    }
+
+    .console-body {
+      min-height: 0;
+      flex: 1;
+      overflow: auto;
+      padding: 3px 2px 20px;
+      scrollbar-width: none;
+    }
+
+    .console-body::-webkit-scrollbar {
+      display: none;
+    }
+
+    .section-label {
+      margin: 4px 5px 9px;
+      color: var(--muted);
+      font-size: .65rem;
+      font-weight: 1000;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .cartridge-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 10px;
+    }
+
+    .cartridge {
+      min-height: 166px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 23px;
+      color: var(--text);
+      text-align: left;
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.11),
+          rgba(255,255,255,.035)
+        );
+      box-shadow: var(--shadow);
+      transition:
+        transform .16s ease,
+        border-color .16s ease;
+    }
+
+    .cartridge:active {
+      transform: scale(.97);
+    }
+
+    .cartridge-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 12px;
+      place-items: center;
+      border-radius: 16px;
+      font-size: 1.65rem;
+      background: rgba(255,255,255,.1);
+    }
+
+    .cartridge-title {
+      display: block;
+      margin-bottom: 5px;
+      font-size: .94rem;
+      font-weight: 1000;
+    }
+
+    .cartridge-description {
+      display: block;
+      min-height: 39px;
+      color: var(--muted);
+      font-size: .67rem;
+      line-height: 1.35;
+    }
+
+    .cartridge-record {
+      display: block;
+      margin-top: 9px;
+      color: var(--gold);
+      font-size: .65rem;
+      font-weight: 950;
+    }
+
+    .console-panel {
+      margin-top: 12px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 21px;
+      background: var(--panel2);
+    }
+
+    .console-panel-title {
+      margin-bottom: 10px;
+      font-size: .76rem;
+      font-weight: 1000;
+    }
+
+    .console-stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 7px;
+    }
+
+    .stat {
+      padding: 10px 6px;
+      border-radius: 14px;
+      text-align: center;
+      background: rgba(255,255,255,.07);
+    }
+
+    .stat b {
+      display: block;
+      font-size: 1rem;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: .57rem;
+      font-weight: 900;
+    }
+
+    .console-actions {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 52px;
+      padding: 12px 15px;
+      border-radius: 17px;
+      color: #13152a;
+      font-weight: 1000;
+      letter-spacing: .04em;
+      background: var(--cyan);
+      box-shadow:
+        0 5px 0 rgba(0,0,0,.22),
+        0 12px 21px rgba(0,0,0,.18);
+    }
+
+    .btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 2px 0 rgba(0,0,0,.22);
+    }
+
+    .btn.dark {
+      color: var(--text);
+      background: #3a3e69;
+    }
+
+    .btn.secondary {
+      color: #242644;
+      background: #f0f2ff;
+    }
+
+    /* =========================================================
+       GAME SCREEN
+       ========================================================= */
+
+    .game-screen {
+      padding: var(--safe-top) 10px var(--safe-bottom);
     }
 
     .hud {
@@ -98,9 +328,9 @@
     .hud-label {
       display: block;
       color: var(--muted);
-      font-size: 0.64rem;
+      font-size: .64rem;
       font-weight: 950;
-      letter-spacing: 0.1em;
+      letter-spacing: .1em;
       text-transform: uppercase;
     }
 
@@ -118,9 +348,9 @@
       display: block;
       margin-top: 2px;
       color: var(--gold);
-      font-size: 0.66rem;
+      font-size: .66rem;
       font-weight: 950;
-      letter-spacing: 0.08em;
+      letter-spacing: .08em;
     }
 
     .icon-btn {
@@ -136,6 +366,12 @@
       background: var(--panel);
     }
 
+    /*
+      IMPORTANT:
+      This viewport is the only DOM area controlled by T-Engine.
+      Nothing outside this element is transformed by the engine.
+    */
+
     .game-shell {
       position: relative;
       min-height: 0;
@@ -144,8 +380,10 @@
       border: 1px solid var(--line);
       border-radius: 25px;
       background: #15182f;
-      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.32);
+      box-shadow:
+        inset 0 0 35px rgba(0,0,0,.32);
       touch-action: none;
+      isolation: isolate;
     }
 
     #gameCanvas {
@@ -161,17 +399,17 @@
       z-index: 12;
       right: 11px;
       bottom: 11px;
-      width: min(43vw, 194px);
+      width: min(43vw,194px);
       aspect-ratio: 1;
       padding: 7px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
+      grid-template-columns: repeat(3,1fr);
+      grid-template-rows: repeat(3,1fr);
       gap: 5px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255,255,255,.22);
       border-radius: 29px;
-      background: rgba(16, 19, 45, 0.84);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      background: rgba(16,19,45,.84);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
       backdrop-filter: blur(8px);
       touch-action: none;
     }
@@ -181,10 +419,11 @@
       min-height: 0;
       border-radius: 16px;
       color: #f7f9ff;
-      font-size: clamp(1rem, 5vw, 1.45rem);
+      font-size: clamp(1rem,5vw,1.45rem);
       font-weight: 1000;
-      background: rgba(255, 255, 255, 0.12);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13);
+      background: rgba(255,255,255,.12);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.13);
       touch-action: none;
     }
 
@@ -192,7 +431,8 @@
     .direction-button:active {
       color: #12233a;
       background: var(--cyan);
-      box-shadow: 0 0 18px rgba(87, 229, 255, 0.74);
+      box-shadow:
+        0 0 18px rgba(87,229,255,.74);
     }
 
     .direction-center {
@@ -200,11 +440,11 @@
       place-items: center;
       border-radius: 16px;
       color: var(--muted);
-      font-size: 0.61rem;
+      font-size: .61rem;
       font-weight: 1000;
       line-height: 1.06;
       text-align: center;
-      background: rgba(0, 0, 0, 0.24);
+      background: rgba(0,0,0,.24);
       pointer-events: none;
     }
 
@@ -213,24 +453,26 @@
       z-index: 12;
       bottom: 15px;
       left: 14px;
-      width: min(34vw, 145px);
+      width: min(34vw,145px);
       min-height: 66px;
       padding: 10px;
-      border: 3px solid rgba(255, 255, 255, 0.68);
+      border: 3px solid rgba(255,255,255,.68);
       border-radius: 22px;
       color: #261323;
-      font-size: 0.88rem;
+      font-size: .88rem;
       font-weight: 1000;
-      letter-spacing: 0.05em;
+      letter-spacing: .05em;
       background: var(--pink);
-      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.2), 0 0 22px rgba(255, 110, 151, 0.52);
+      box-shadow:
+        0 6px 0 rgba(0,0,0,.2),
+        0 0 22px rgba(255,110,151,.52);
       touch-action: none;
     }
 
     .action-button:active,
     .action-button.ready {
       transform: translateY(4px);
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: 0 2px 0 rgba(0,0,0,.2);
       filter: brightness(1.06);
     }
 
@@ -242,16 +484,23 @@
       padding: 20px;
       place-items: center;
       text-align: center;
-      background: rgba(7, 8, 24, 0.8);
+      background: rgba(7,8,24,.8);
       backdrop-filter: blur(5px);
     }
 
     .overlay-card {
-      width: min(370px, 100%);
+      width: min(370px,100%);
+      max-height: 92%;
+      overflow: auto;
       padding: 25px 19px;
       border: 1px solid var(--line);
       border-radius: 28px;
-      background: linear-gradient(145deg, #3d4378, #24284d);
+      background:
+        linear-gradient(
+          145deg,
+          #3d4378,
+          #24284d
+        );
       box-shadow: var(--shadow);
     }
 
@@ -263,7 +512,7 @@
 
     .overlay-card h1 {
       font-size: 1.82rem;
-      letter-spacing: -0.05em;
+      letter-spacing: -.05em;
     }
 
     .overlay-card h2 {
@@ -275,33 +524,6 @@
       margin: 10px 0 19px;
       color: var(--muted);
       line-height: 1.42;
-    }
-
-    .btn {
-      width: 100%;
-      min-height: 54px;
-      padding: 13px 16px;
-      border-radius: 18px;
-      color: #13152a;
-      font-weight: 950;
-      letter-spacing: 0.04em;
-      background: var(--cyan);
-      box-shadow: 0 6px 0 rgba(0, 0, 0, 0.22), 0 12px 21px rgba(0, 0, 0, 0.18);
-    }
-
-    .btn:active {
-      transform: translateY(4px);
-      box-shadow: 0 2px 0 rgba(0, 0, 0, 0.22);
-    }
-
-    .btn.secondary {
-      color: #242644;
-      background: #f0f2ff;
-    }
-
-    .btn.dark {
-      color: var(--text);
-      background: #3a3e69;
     }
 
     .rankings {
@@ -319,65 +541,51 @@
       justify-content: space-between;
       gap: 10px;
       border-radius: 15px;
-      background: rgba(255, 255, 255, 0.09);
+      background: rgba(255,255,255,.09);
     }
 
     .rank:first-child {
-      border: 1px solid rgba(255, 211, 95, 0.55);
-      background: rgba(255, 211, 95, 0.19);
+      border: 1px solid rgba(255,211,95,.55);
+      background: rgba(255,211,95,.19);
     }
 
     .rank span {
       color: var(--cyan);
-      font-size: 0.84rem;
+      font-size: .84rem;
       font-weight: 900;
       text-align: right;
     }
 
     #toast {
-      position: absolute;
-      z-index: 60;
+      position: fixed;
+      z-index: 200;
       bottom: calc(var(--safe-bottom) + 12px);
       left: 50%;
       max-width: calc(100% - 36px);
       padding: 11px 15px;
       border-radius: 999px;
       color: #18192d;
-      font-size: 0.84rem;
+      font-size: .84rem;
       font-weight: 950;
       text-align: center;
       pointer-events: none;
       opacity: 0;
       background: #f6f7ff;
       box-shadow: var(--shadow);
-      transform: translate(-50%, 130px);
-      transition: opacity 0.2s ease, transform 0.25s ease;
+      transform: translate(-50%,130px);
+      transition:
+        opacity .2s ease,
+        transform .25s ease;
     }
 
     #toast.show {
       opacity: 1;
-      transform: translate(-50%, 0);
-    }
-
-    @media (max-width: 360px) {
-      .control-zone {
-        width: 165px;
-      }
-
-      .action-button {
-        width: 122px;
-      }
-    }
-
-    @media (orientation: landscape) and (max-height: 650px) {
-      #rotate {
-        display: flex;
-      }
+      transform: translate(-50%,0);
     }
 
     #rotate {
       position: fixed;
-      z-index: 100;
+      z-index: 1000;
       inset: 0;
       display: none;
       padding: 28px;
@@ -403,20 +611,43 @@
       color: var(--muted);
     }
 
-    @media (prefers-reduced-motion: reduce) {
+    @media (max-width:360px) {
+      .control-zone {
+        width: 165px;
+      }
+
+      .action-button {
+        width: 122px;
+      }
+
+      .cartridge {
+        min-height: 150px;
+        padding: 12px;
+      }
+    }
+
+    @media (orientation:landscape) and (max-height:650px) {
+      #rotate {
+        display: flex;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
       *,
       *::before,
       *::after {
-        animation-duration: 0.01ms !important;
+        animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
+        transition-duration: .01ms !important;
       }
     }
   </style>
 </head>
 
 <body>
+
   <div id="app"></div>
+  <div id="toast"></div>
 
   <div id="rotate">
     <div>
@@ -430,30 +661,51 @@
     "use strict";
 
     /*
-      ============================================================
-      THUMB ARENA T-ENGINE
-      ============================================================
+    ============================================================
+    THUMB ARENA CONSOLE
+    ============================================================
 
-      Core:
-      - 8-direction movement
-      - 8-direction virtual look camera
-      - T-Engine 3D tunnel/depth layer
-      - Multidirectional branch portals
-      - Perspective grid
-      - LocalStorage progression
-      - Pass & Play
+    ARCHITECTURE
 
-      Routed games:
-      - trail2
-      - quest
-      - brawl
-      - treasure
-      - boss
+      CONSOLE
+        |
+        +-- Cartridge Manager
+        |
+        +-- Game Session
+        |
+        +-- Input Router
+        |
+        +-- T-ENGINE
+              |
+              +-- World
+              +-- Entities
+              +-- Physics
+              +-- Camera
+              +-- Collision
+              +-- Tunnel
+              +-- Renderer
 
-      No networking.
-      No external assets.
-      No WebRTC.
-      No Firebase.
+    IMPORTANT:
+
+      T-Engine does NOT own the application screen.
+
+      It owns only:
+        - world state
+        - movement
+        - physics
+        - camera
+        - game viewport rendering
+
+      The console owns:
+        - menus
+        - cartridges
+        - profile
+        - records
+        - game selection
+        - overlays
+
+    This makes the T-Engine reusable.
+    ============================================================
     */
 
     const PLAYER_COLORS = [
@@ -463,9 +715,10 @@
       "#ffd35f"
     ];
 
-    const SAVE_KEY = "thumbArenaLauncherV1";
+    const SAVE_KEY = "thumbArenaConsoleV2";
 
     const GAME_CONFIGS = {
+
       trail2: {
         title: "Trail Duel 2",
         icon: "〰",
@@ -475,7 +728,7 @@
         objective: "Survive the energy trails",
         actionLabel: "DASH",
         description:
-          "Move in eight directions. Leave an energy trail. Touch any trail or boundary and crash."
+          "Move in eight directions. Leave an energy trail. Touch a trail or boundary and crash."
       },
 
       quest: {
@@ -499,7 +752,7 @@
         objective: "Strike targets and avoid danger",
         actionLabel: "ATTACK",
         description:
-          "Move with eight directions. Use Attack near enemies for points."
+          "Move with eight directions. Attack enemies when close."
       },
 
       treasure: {
@@ -511,7 +764,7 @@
         objective: "Collect treasure and return to base",
         actionLabel: "GRAB",
         description:
-          "Collect treasure gems, avoid traps, and return to the glowing base."
+          "Collect treasure gems, avoid traps, and return to base."
       },
 
       boss: {
@@ -523,65 +776,20 @@
         objective: "Destroy weak points before time expires",
         actionLabel: "ATTACK",
         description:
-          "Dodge the boss attacks and use Attack near glowing weak points."
+          "Dodge boss attacks and strike glowing weak points."
       }
     };
 
-    function safeParsePlayers() {
-      const params = new URLSearchParams(window.location.search);
-
-      const fallback = [{
-        id: "local-1",
-        name: "Player 1",
-        color: PLAYER_COLORS[0]
-      }];
-
-      try {
-        const encoded = params.get("players");
-
-        if (!encoded) return fallback;
-
-        const json =
-          decodeURIComponent(
-            escape(
-              atob(
-                decodeURIComponent(encoded)
-              )
-            )
-          );
-
-        const parsed = JSON.parse(json);
-
-        if (!Array.isArray(parsed) || !parsed.length) {
-          return fallback;
-        }
-
-        return parsed
-          .slice(0, 4)
-          .map((player, index) => ({
-            id:
-              typeof player.id === "string"
-                ? player.id.slice(0, 40)
-                : `local-${index + 1}`,
-
-            name:
-              typeof player.name === "string"
-                ? player.name
-                    .replace(/[<>]/g, "")
-                    .slice(0, 14) ||
-                  `Player ${index + 1}`
-                : `Player ${index + 1}`,
-
-            color: PLAYER_COLORS[index]
-          }));
-
-      } catch {
-        return fallback;
-      }
-    }
+    /*
+    ============================================================
+    STORAGE
+    ============================================================
+    */
 
     function loadStorage() {
+
       const fallback = {
+
         settings: {
           sound: true,
           vibration: true,
@@ -601,18 +809,24 @@
             bossBreak: 0
           }
         }
+
       };
 
       try {
-        const raw = localStorage.getItem(SAVE_KEY);
 
-        if (!raw) return fallback;
+        const raw =
+          localStorage.getItem(SAVE_KEY);
 
-        const saved = JSON.parse(raw);
+        if (!raw) {
+          return fallback;
+        }
+
+        const saved =
+          JSON.parse(raw);
 
         return {
-          ...fallback,
 
+          ...fallback,
           ...saved,
 
           settings: {
@@ -621,68 +835,181 @@
           },
 
           arenaProfile: {
+
             ...fallback.arenaProfile,
             ...(saved.arenaProfile || {}),
 
             records: {
               ...fallback.arenaProfile.records,
-              ...((saved.arenaProfile || {}).records || {})
+              ...(
+                saved.arenaProfile?.records ||
+                {}
+              )
             }
+
           }
+
         };
 
       } catch {
+
         return fallback;
+
       }
     }
 
     function saveStorage(data) {
+
       try {
+
         localStorage.setItem(
           SAVE_KEY,
           JSON.stringify(data)
         );
+
       } catch {}
+
     }
 
+    /*
+    ============================================================
+    PLAYERS
+    ============================================================
+    */
+
+    function safeParsePlayers() {
+
+      const params =
+        new URLSearchParams(
+          window.location.search
+        );
+
+      const fallback = [
+        {
+          id: "local-1",
+          name: "Player 1",
+          color: PLAYER_COLORS[0]
+        }
+      ];
+
+      try {
+
+        const encoded =
+          params.get("players");
+
+        if (!encoded) {
+          return fallback;
+        }
+
+        const json =
+          decodeURIComponent(
+            escape(
+              atob(
+                decodeURIComponent(encoded)
+              )
+            )
+          );
+
+        const parsed =
+          JSON.parse(json);
+
+        if (
+          !Array.isArray(parsed) ||
+          !parsed.length
+        ) {
+          return fallback;
+        }
+
+        return parsed
+          .slice(0,4)
+          .map((player,index) => ({
+
+            id:
+              typeof player.id === "string"
+                ? player.id.slice(0,40)
+                : `local-${index + 1}`,
+
+            name:
+              typeof player.name === "string"
+                ? player.name
+                    .replace(/[<>]/g,"")
+                    .slice(0,14) ||
+                  `Player ${index + 1}`
+                : `Player ${index + 1}`,
+
+            color:
+              PLAYER_COLORS[index]
+
+          }));
+
+      } catch {
+
+        return fallback;
+
+      }
+    }
+
+    /*
+    ============================================================
+    AUDIO
+    ============================================================
+    */
+
     class AudioManager {
+
       constructor(storage) {
+
         this.storage = storage;
         this.context = null;
+
       }
 
       play(type = "click") {
-        if (!this.storage.settings?.sound) return;
+
+        if (!this.storage.settings?.sound) {
+          return;
+        }
 
         try {
+
           const AudioContextClass =
             window.AudioContext ||
             window.webkitAudioContext;
 
-          if (!AudioContextClass) return;
-
-          if (!this.context) {
-            this.context = new AudioContextClass();
+          if (!AudioContextClass) {
+            return;
           }
 
-          if (this.context.state === "suspended") {
+          if (!this.context) {
+            this.context =
+              new AudioContextClass();
+          }
+
+          if (
+            this.context.state ===
+            "suspended"
+          ) {
             this.context.resume();
           }
 
           const map = {
-            click: [460, 0.05, "sine"],
-            start: [720, 0.1, "sine"],
-            hit: [130, 0.16, "sawtooth"],
-            win: [900, 0.16, "triangle"],
-            point: [760, 0.06, "square"],
-            gold: [1040, 0.09, "sine"]
+
+            click: [460,.05,"sine"],
+            start: [720,.1,"sine"],
+            hit: [130,.16,"sawtooth"],
+            win: [900,.16,"triangle"],
+            point: [760,.06,"square"],
+            gold: [1040,.09,"sine"]
+
           };
 
           const [
             frequency,
             duration,
             wave
-          ] = map[type] || map.click;
+          ] =
+            map[type] ||
+            map.click;
 
           const oscillator =
             this.context.createOscillator();
@@ -698,93 +1025,122 @@
           );
 
           gain.gain.setValueAtTime(
-            0.07,
+            .07,
             this.context.currentTime
           );
 
           gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            this.context.currentTime + duration
+            .001,
+            this.context.currentTime +
+              duration
           );
 
           oscillator
             .connect(gain)
-            .connect(this.context.destination);
+            .connect(
+              this.context.destination
+            );
 
           oscillator.start();
 
           oscillator.stop(
-            this.context.currentTime + duration
+            this.context.currentTime +
+              duration
           );
 
         } catch {}
       }
 
       vibrate(pattern = 15) {
-        if (!this.storage.settings?.vibration) return;
+
+        if (
+          !this.storage.settings?.vibration
+        ) {
+          return;
+        }
 
         try {
           navigator.vibrate?.(pattern);
         } catch {}
       }
+
     }
 
-    class EightDirectionInput {
+    /*
+    ============================================================
+    INPUT ROUTER
+    ============================================================
+
+    The input system does not directly manipulate the screen.
+
+    It emits commands.
+
+    T-Engine consumes the commands.
+
+    This is the separation that prevents movement from
+    interfering with the console.
+    ============================================================
+    */
+
+    class InputRouter {
+
       constructor() {
-        this.direction = null;
+
         this.vector = {
           x: 0,
           y: 0
         };
 
+        this.direction = null;
+
+        this.pad = null;
         this.pressedButton = null;
-        this.cleanupFunctions = [];
+        this.cleanup = [];
+
       }
 
       static map() {
+
         return {
-          nw: { x: -1, y: -1 },
-          n:  { x: 0,  y: -1 },
-          ne: { x: 1,  y: -1 },
 
-          w:  { x: -1, y: 0 },
-          e:  { x: 1,  y: 0 },
+          nw: {x:-1,y:-1},
+          n:  {x:0,y:-1},
+          ne: {x:1,y:-1},
 
-          sw: { x: -1, y: 1 },
-          s:  { x: 0,  y: 1 },
-          se: { x: 1, y: 1 }
+          w:  {x:-1,y:0},
+          e:  {x:1,y:0},
+
+          sw: {x:-1,y:1},
+          s:  {x:0,y:1},
+          se: {x:1,y:1}
+
         };
+
       }
 
-      mount(container, onDirection) {
-        const pad = document.createElement("div");
+      mount(container,callback) {
 
-        pad.className = "control-zone";
+        this.destroy();
+
+        const pad =
+          document.createElement("div");
+
+        pad.className =
+          "control-zone";
 
         pad.innerHTML = `
-          <button
-            class="direction-button"
-            data-dir="nw"
-            aria-label="Northwest"
-          >↖</button>
 
-          <button
-            class="direction-button"
-            data-dir="n"
-            aria-label="North"
-          >↑</button>
+          <button class="direction-button"
+            data-dir="nw">↖</button>
 
-          <button
-            class="direction-button"
-            data-dir="ne"
-            aria-label="Northeast"
-          >↗</button>
+          <button class="direction-button"
+            data-dir="n">↑</button>
 
-          <button
-            class="direction-button"
-            data-dir="w"
-            aria-label="West"
-          >←</button>
+          <button class="direction-button"
+            data-dir="ne">↗</button>
+
+          <button class="direction-button"
+            data-dir="w">←</button>
 
           <div class="direction-center">
             8 WAY<br>
@@ -792,133 +1148,145 @@
             + LOOK
           </div>
 
-          <button
-            class="direction-button"
-            data-dir="e"
-            aria-label="East"
-          >→</button>
+          <button class="direction-button"
+            data-dir="e">→</button>
 
-          <button
-            class="direction-button"
-            data-dir="sw"
-            aria-label="Southwest"
-          >↙</button>
+          <button class="direction-button"
+            data-dir="sw">↙</button>
 
-          <button
-            class="direction-button"
-            data-dir="s"
-            aria-label="South"
-          >↓</button>
+          <button class="direction-button"
+            data-dir="s">↓</button>
 
-          <button
-            class="direction-button"
-            data-dir="se"
-            aria-label="Southeast"
-          >↘</button>
+          <button class="direction-button"
+            data-dir="se">↘</button>
+
         `;
 
         container.appendChild(pad);
 
-        const setDirection = direction => {
-          const raw =
-            EightDirectionInput.map()[direction] ||
-            { x: 0, y: 0 };
+        this.pad = pad;
 
-          const diagonal =
-            raw.x !== 0 &&
-            raw.y !== 0;
+        const setDirection =
+          direction => {
 
-          const multiplier =
-            diagonal
-              ? Math.SQRT1_2
-              : 1;
+            const raw =
+              InputRouter.map()[direction] ||
+              {x:0,y:0};
 
-          this.direction =
-            direction || null;
+            const diagonal =
+              raw.x !== 0 &&
+              raw.y !== 0;
 
-          this.vector = {
-            x: raw.x * multiplier,
-            y: raw.y * multiplier
+            const multiplier =
+              diagonal
+                ? Math.SQRT1_2
+                : 1;
+
+            this.direction =
+              direction || null;
+
+            this.vector = {
+
+              x:
+                raw.x *
+                multiplier,
+
+              y:
+                raw.y *
+                multiplier
+
+            };
+
+            if (this.pressedButton) {
+
+              this.pressedButton
+                .classList
+                .remove("pressed");
+
+            }
+
+            this.pressedButton =
+              direction
+                ? pad.querySelector(
+                    `[data-dir="${direction}"]`
+                  )
+                : null;
+
+            if (this.pressedButton) {
+
+              this.pressedButton
+                .classList
+                .add("pressed");
+
+            }
+
+            callback?.(
+              this.vector,
+              this.direction
+            );
+
           };
-
-          if (this.pressedButton) {
-            this.pressedButton.classList.remove(
-              "pressed"
-            );
-          }
-
-          this.pressedButton =
-            direction
-              ? pad.querySelector(
-                  `[data-dir="${direction}"]`
-                )
-              : null;
-
-          if (this.pressedButton) {
-            this.pressedButton.classList.add(
-              "pressed"
-            );
-          }
-
-          onDirection?.(
-            this.vector,
-            this.direction
-          );
-        };
-
-        const release = event => {
-          if (event) {
-            event.preventDefault();
-          }
-
-          setDirection(null);
-        };
 
         pad
           .querySelectorAll("[data-dir]")
           .forEach(button => {
 
-            const press = event => {
-              event.preventDefault();
+            const press =
+              event => {
 
-              button.setPointerCapture?.(
-                event.pointerId
-              );
+                event.preventDefault();
 
-              setDirection(
-                button.dataset.dir
-              );
-            };
+                button.setPointerCapture?.(
+                  event.pointerId
+                );
+
+                setDirection(
+                  button.dataset.dir
+                );
+
+              };
+
+            const release =
+              event => {
+
+                event?.preventDefault();
+
+                setDirection(null);
+
+              };
 
             button.addEventListener(
               "pointerdown",
               press,
-              { passive: false }
+              {passive:false}
             );
 
             button.addEventListener(
               "pointerup",
               release,
-              { passive: false }
+              {passive:false}
             );
 
             button.addEventListener(
               "pointercancel",
               release,
-              { passive: false }
+              {passive:false}
             );
 
             button.addEventListener(
               "pointerleave",
               event => {
-                if (event.buttons === 0) {
+
+                if (!event.buttons) {
                   release(event);
                 }
+
               },
-              { passive: false }
+              {passive:false}
             );
 
-            this.cleanupFunctions.push(() => {
+            this.cleanup.push(() => {
+
               button.removeEventListener(
                 "pointerdown",
                 press
@@ -933,78 +1301,113 @@
                 "pointercancel",
                 release
               );
+
             });
+
           });
 
-        this.cleanupFunctions.push(
+        this.cleanup.push(
           () => pad.remove()
         );
+
       }
 
       destroy() {
-        this.cleanupFunctions.forEach(
-          cleanup => cleanup()
+
+        this.cleanup.forEach(
+          fn => fn()
         );
 
-        this.cleanupFunctions = [];
+        this.cleanup = [];
+
+        this.pad = null;
+
+        this.pressedButton = null;
 
         this.direction = null;
 
         this.vector = {
-          x: 0,
-          y: 0
+          x:0,
+          y:0
         };
+
       }
+
     }
 
-    class EightDirectionCamera {
+    /*
+    ============================================================
+    CAMERA
+    ============================================================
+    */
+
+    class TEngineCamera {
+
       constructor() {
+
         this.angle = 0;
         this.targetAngle = 0;
         this.direction = "n";
         this.turnSpeed = 8;
+
       }
 
       static angles() {
+
         return {
+
           n: 0,
           ne: Math.PI / 4,
           e: Math.PI / 2,
-          se: Math.PI * 0.75,
+          se: Math.PI * .75,
           s: Math.PI,
           sw: Math.PI * 1.25,
           w: Math.PI * 1.5,
           nw: Math.PI * 1.75
+
         };
+
       }
 
       setDirection(direction) {
+
         if (
           !(direction in
-            EightDirectionCamera.angles())
+            TEngineCamera.angles())
         ) {
           return;
         }
 
-        this.direction = direction;
+        this.direction =
+          direction;
 
         this.targetAngle =
-          EightDirectionCamera.angles()[
+          TEngineCamera.angles()[
             direction
           ];
+
       }
 
-      update(deltaSeconds) {
+      update(dt) {
+
         let difference =
           this.targetAngle -
           this.angle;
 
-        while (difference > Math.PI) {
-          difference -= Math.PI * 2;
+        while (
+          difference >
+          Math.PI
+        ) {
+          difference -=
+            Math.PI * 2;
         }
 
-        while (difference < -Math.PI) {
-          difference += Math.PI * 2;
+        while (
+          difference <
+          -Math.PI
+        ) {
+          difference +=
+            Math.PI * 2;
         }
 
         this.angle +=
@@ -1012,20 +1415,22 @@
           Math.min(
             1,
             this.turnSpeed *
-              deltaSeconds
+              dt
           );
 
-        if (this.angle < 0) {
-          this.angle += Math.PI * 2;
-        }
+        this.angle =
+          (
+            this.angle +
+            Math.PI * 2
+          ) %
+          (Math.PI * 2);
 
-        if (this.angle >= Math.PI * 2) {
-          this.angle -= Math.PI * 2;
-        }
       }
 
       headingName() {
+
         const labels = {
+
           n: "NORTH ↑",
           ne: "NORTHEAST ↗",
           e: "EAST →",
@@ -1034,377 +1439,206 @@
           sw: "SOUTHWEST ↙",
           w: "WEST ←",
           nw: "NORTHWEST ↖"
+
         };
 
-        return labels[this.direction];
+        return labels[
+          this.direction
+        ];
+
       }
+
     }
 
-    class TEngineApp {
-      constructor() {
-        this.storage = loadStorage();
+    /*
+    ============================================================
+    T-ENGINE WORLD
+    ============================================================
 
-        this.audio =
-          new AudioManager(
-            this.storage
-          );
+    This class is the reusable movement/world layer.
 
-        const params =
-          new URLSearchParams(
-            window.location.search
-          );
+    It does NOT:
+      - create the application
+      - change #app
+      - navigate pages
+      - manage console UI
+      - own overlays
+      - own player turns
 
-        const requestedGame =
-          params.get("game") ||
-          "quest";
+    It only manages the active world.
+    ============================================================
+    */
 
-        this.gameId =
-          GAME_CONFIGS[requestedGame]
-            ? requestedGame
-            : "quest";
+    class TEngineWorld {
 
-        this.config =
-          GAME_CONFIGS[this.gameId];
+      constructor({
 
-        this.players =
-          safeParsePlayers();
+        canvas,
+        area,
+        config,
+        gameId,
+        player,
+        audio
 
-        this.app =
-          document.querySelector("#app");
+      }) {
 
-        this.canvas = null;
-        this.ctx = null;
-        this.area = null;
+        this.canvas = canvas;
+        this.area = area;
+
+        this.ctx =
+          canvas.getContext("2d");
+
+        this.config = config;
+        this.gameId = gameId;
+        this.player = player;
+        this.audio = audio;
+
+        this.camera =
+          new TEngineCamera();
+
+        this.input =
+          new InputRouter();
+
+        this.state = null;
+
+        this.running = false;
 
         this.frame = 0;
         this.lastFrame = 0;
 
-        this.directionInput = null;
-
-        this.camera =
-          new EightDirectionCamera();
-
-        this.currentPlayerIndex = 0;
-
-        this.turnResults = [];
-
-        this.gameState = null;
-
         this.actionButton = null;
 
-        this.toastTimer = null;
+        this.onFinish = null;
+        this.onToast = null;
 
-        document.addEventListener(
-          "contextmenu",
-          event =>
-            event.preventDefault()
-        );
-
-        this.renderShell();
-
-        this.showIntro();
-      }
-
-      renderShell() {
-        this.app.innerHTML = `
-          <main class="screen active">
-
-            <div class="hud">
-              <div class="hud-left">
-
-                <span class="hud-label">
-                  ${this.config.title}
-                </span>
-
-                <span
-                  id="hudValue"
-                  class="hud-value"
-                >
-                  Preparing T-engine…
-                </span>
-
-                <span
-                  id="headingValue"
-                  class="heading"
-                >
-                  LOOK: NORTH ↑
-                </span>
-
-              </div>
-
-              <button
-                id="exitButton"
-                class="icon-btn"
-                aria-label="Exit game"
-              >
-                ✕
-              </button>
-            </div>
-
-            <section
-              id="gameArea"
-              class="game-shell"
-            >
-              <canvas
-                id="gameCanvas"
-              ></canvas>
-            </section>
-
-          </main>
-
-          <div id="toast"></div>
-        `;
-
-        this.area =
-          document.querySelector(
-            "#gameArea"
-          );
-
-        this.canvas =
-          document.querySelector(
-            "#gameCanvas"
-          );
-
-        this.ctx =
-          this.canvas.getContext(
-            "2d"
-          );
-
-        document
-          .querySelector("#exitButton")
-          .addEventListener(
-            "click",
-            () => {
-
-              this.stop();
-
-              const leave =
-                confirm(
-                  "Return to Thumb Arena? This current round will end."
-                );
-
-              if (leave) {
-                this.returnToLauncher();
-              } else {
-                this.showIntro();
-              }
-            }
-          );
+        this.resizeHandler =
+          () => this.resize();
 
         window.addEventListener(
           "resize",
-          () =>
-            this.resizeCanvas()
+          this.resizeHandler
         );
 
-        this.resizeCanvas();
+        this.resize();
+
       }
 
-      resizeCanvas() {
-        const rect =
-          this.area.getBoundingClientRect();
+      /*
+      ----------------------------------------------------------
+      PUBLIC ENGINE API
+      ----------------------------------------------------------
+      */
 
-        const dpr =
-          Math.min(
-            window.devicePixelRatio || 1,
-            2
-          );
+      loadWorld() {
 
-        this.canvas.width =
-          rect.width * dpr;
+        this.state =
+          this.createWorldState();
 
-        this.canvas.height =
-          rect.height * dpr;
+        this.configureWorld();
 
-        this.ctx.setTransform(
-          dpr,
-          0,
-          0,
-          dpr,
-          0,
-          0
-        );
       }
 
-      showIntro() {
+      start(onFinish,onToast) {
+
         this.stop();
 
-        const overlay =
-          document.createElement(
-            "div"
+        this.onFinish = onFinish;
+        this.onToast = onToast;
+
+        this.loadWorld();
+
+        this.mountInput();
+
+        this.running = true;
+
+        this.lastFrame =
+          performance.now();
+
+        this.frame =
+          requestAnimationFrame(
+            now =>
+              this.loop(now)
           );
 
-        overlay.className =
-          "overlay";
-
-        overlay.innerHTML = `
-          <div class="overlay-card">
-
-            <div
-              style="
-                font-size:3.1rem;
-                margin-bottom:3px
-              "
-            >
-              ${this.config.icon}
-            </div>
-
-            <h1>
-              ${this.escape(
-                this.config.title
-              )}
-            </h1>
-
-            <p>
-              ${this.escape(
-                this.config.description
-              )}
-            </p>
-
-            <p
-              style="font-size:.8rem"
-            >
-              Use the 8-way pad to move,
-              turn the virtual camera,
-              and navigate the 3D
-              T-engine space.
-            </p>
-
-            <button
-              id="startButton"
-              class="btn"
-            >
-              START
-            </button>
-
-            <div style="height:10px"></div>
-
-            <button
-              id="backButton"
-              class="btn dark"
-            >
-              RETURN TO ARENA
-            </button>
-
-          </div>
-        `;
-
-        this.area.appendChild(
-          overlay
-        );
-
-        overlay
-          .querySelector("#startButton")
-          .onclick = () => {
-
-            overlay.remove();
-
-            this.audio.play("start");
-
-            this.startNextPlayer();
-          };
-
-        overlay
-          .querySelector("#backButton")
-          .onclick = () => {
-            this.returnToLauncher();
-          };
       }
 
-      showPassOverlay(
-        player,
-        onReady
-      ) {
-        const overlay =
-          document.createElement(
-            "div"
-          );
+      pause() {
 
-        overlay.className =
-          "overlay";
+        this.running = false;
 
-        overlay.innerHTML = `
-          <div class="overlay-card">
-
-            <div class="hud-label">
-              T-Engine Pass & Play
-            </div>
-
-            <h2
-              style="color:${player.color}"
-            >
-              PASS TO
-              ${this.escape(
-                player.name.toUpperCase()
-              )}
-            </h2>
-
-            <p>
-              Use the eight-direction
-              pad to move and control
-              the virtual look camera.
-              The T-engine now adds
-              multidirectional depth
-              and tunnel space.
-            </p>
-
-            <button
-              id="readyButton"
-              class="btn"
-            >
-              TAP WHEN READY
-            </button>
-
-          </div>
-        `;
-
-        this.area.appendChild(
-          overlay
+        cancelAnimationFrame(
+          this.frame
         );
 
-        overlay
-          .querySelector("#readyButton")
-          .onclick = () => {
-
-            overlay.remove();
-
-            onReady();
-          };
       }
 
-      startNextPlayer() {
-        if (
-          this.currentPlayerIndex >=
-          this.players.length
-        ) {
-          this.finishGame();
+      resume() {
+
+        if (this.running) {
           return;
         }
 
-        const player =
-          this.players[
-            this.currentPlayerIndex
-          ];
+        if (!this.state) {
+          return;
+        }
 
-        this.showPassOverlay(
-          player,
-          () => {
-            this.beginTurn(player);
-          }
-        );
+        this.running = true;
+
+        this.lastFrame =
+          performance.now();
+
+        this.frame =
+          requestAnimationFrame(
+            now =>
+              this.loop(now)
+          );
+
       }
 
-      beginTurn(player) {
+      stop() {
+
+        this.running = false;
+
+        cancelAnimationFrame(
+          this.frame
+        );
+
+        this.frame = 0;
+
+        this.input.destroy();
+
+        this.actionButton?.remove();
+
+        this.actionButton = null;
+
+      }
+
+      destroy() {
+
         this.stop();
 
-        const rect =
-          this.area.getBoundingClientRect();
+        window.removeEventListener(
+          "resize",
+          this.resizeHandler
+        );
 
-        this.gameState = {
+        this.state = null;
 
-          player,
+      }
+
+      /*
+      ----------------------------------------------------------
+      WORLD STATE
+      ----------------------------------------------------------
+      */
+
+      createWorldState() {
+
+        return {
 
           active: true,
+
+          player: this.player,
 
           startedAt:
             performance.now(),
@@ -1419,12 +1653,20 @@
               ? 3
               : 1,
 
+          worldSize: 560,
+
           playerEntity: {
+
             x: 0,
             y: 0,
+
             radius: 14,
+
             speed: 145,
-            color: player.color
+
+            color:
+              this.player.color
+
           },
 
           movement: {
@@ -1432,12 +1674,62 @@
             y: 0
           },
 
+          /*
+            Movement energy is bounded.
+
+            Acceleration is limited.
+            Maximum speed is fixed.
+            No frame can create arbitrary velocity.
+          */
+
+          physics: {
+
+            maxSpeed: 145,
+
+            acceleration: 520,
+
+            drag: 7.5,
+
+            velocity: {
+              x: 0,
+              y: 0
+            }
+
+          },
+
+          tunnel: {
+
+            active: true,
+
+            depth: 0,
+
+            speed: .85,
+
+            ringCount: 18,
+
+            branchCount: 8,
+
+            spacing: .82,
+
+            width: 1,
+
+            height: .72
+
+          },
+
           actionCooldownUntil: 0,
           actionFlashUntil: 0,
+          lastHitAt: 0,
 
-          objective: null,
+          trailTimer: 0,
+
           portal: null,
+
           boss: null,
+
+          bossAttackAt: 0,
+
+          bossWeakPoint: null,
 
           enemies: [],
           hazards: [],
@@ -1445,203 +1737,206 @@
           crystals: [],
           treasures: [],
 
-          collected: 0,
+          collected: 0
 
-          objectiveCount:
-            this.config.objective,
-
-          worldSize: 560,
-
-          /*
-            =====================================================
-            T-ENGINE 3D TUNNEL SYSTEM
-            =====================================================
-          */
-
-          tunnel: {
-
-            /*
-              Animated depth phase.
-              0 → near
-              1 → far
-            */
-
-            depth: 0,
-
-            /*
-              Base tunnel movement.
-              Direction input modifies this.
-            */
-
-            speed: 0.85,
-
-            /*
-              Number of perspective layers.
-            */
-
-            ringCount: 18,
-
-            /*
-              Eight directional branch portals.
-            */
-
-            branchCount: 8,
-
-            /*
-              Distance between visual depth layers.
-            */
-
-            spacing: 0.82,
-
-            /*
-              Tunnel dimensions.
-            */
-
-            width: 1.0,
-            height: 0.72,
-
-            /*
-              Master switch.
-            */
-
-            active: true
-          },
-
-          trailTimer: 0,
-          bossAttackAt: 0,
-          bossWeakPoint: null
         };
 
-        this.camera =
-          new EightDirectionCamera();
-
-        this.configureWorld();
-
-        this.mountControls();
-
-        this.lastFrame =
-          performance.now();
-
-        this.frame =
-          requestAnimationFrame(
-            now =>
-              this.loop(now)
-          );
       }
 
       configureWorld() {
+
         const state =
-          this.gameState;
+          this.state;
 
         const half =
           state.worldSize / 2;
 
-        state.playerEntity.x = 0;
-        state.playerEntity.y = 0;
+        if (
+          this.gameId ===
+          "quest"
+        ) {
 
-        if (this.gameId === "quest") {
+          for (
+            let i = 0;
+            i < 5;
+            i++
+          ) {
 
-          for (let i = 0; i < 5; i++) {
             state.crystals.push(
               this.randomWorldPoint(42)
             );
+
           }
 
           state.portal = {
+
             x: half - 62,
             y: half - 62,
+
             radius: 26,
+
             active: false
+
           };
 
-          for (let i = 0; i < 4; i++) {
+          for (
+            let i = 0;
+            i < 4;
+            i++
+          ) {
+
             state.hazards.push({
+
               ...this.randomWorldPoint(65),
+
               radius: 17,
+
               vx:
-                (Math.random() - 0.5) *
-                38,
+                (Math.random()-.5)*38,
+
               vy:
-                (Math.random() - 0.5) *
-                38
+                (Math.random()-.5)*38
+
             });
+
           }
+
         }
 
-        if (this.gameId === "brawl") {
+        if (
+          this.gameId ===
+          "brawl"
+        ) {
 
-          for (let i = 0; i < 6; i++) {
+          for (
+            let i = 0;
+            i < 6;
+            i++
+          ) {
+
             state.enemies.push({
+
               ...this.randomWorldPoint(55),
+
               radius: 17,
+
               health: 2,
+
               alive: true,
+
               phase:
                 Math.random() *
                 Math.PI *
                 2
+
             });
+
           }
 
-          for (let i = 0; i < 3; i++) {
+          for (
+            let i = 0;
+            i < 3;
+            i++
+          ) {
+
             state.hazards.push({
+
               ...this.randomWorldPoint(80),
+
               radius: 18,
+
               vx:
-                (Math.random() - 0.5) *
-                46,
+                (Math.random()-.5)*46,
+
               vy:
-                (Math.random() - 0.5) *
-                46
+                (Math.random()-.5)*46
+
             });
+
           }
+
         }
 
-        if (this.gameId === "treasure") {
+        if (
+          this.gameId ===
+          "treasure"
+        ) {
 
-          for (let i = 0; i < 8; i++) {
+          for (
+            let i = 0;
+            i < 8;
+            i++
+          ) {
+
             state.treasures.push({
+
               ...this.randomWorldPoint(45),
+
               radius: 13,
+
               value:
                 1 +
                 Math.floor(
-                  Math.random() * 3
+                  Math.random()*3
                 )
+
             });
+
           }
 
           state.portal = {
+
             x: -half + 55,
             y: -half + 55,
+
             radius: 34,
+
             active: true,
             base: true
+
           };
 
-          for (let i = 0; i < 5; i++) {
+          for (
+            let i = 0;
+            i < 5;
+            i++
+          ) {
+
             state.hazards.push({
+
               ...this.randomWorldPoint(75),
+
               radius: 16,
+
               vx:
-                (Math.random() - 0.5) *
-                50,
+                (Math.random()-.5)*50,
+
               vy:
-                (Math.random() - 0.5) *
-                50
+                (Math.random()-.5)*50
+
             });
+
           }
+
         }
 
-        if (this.gameId === "boss") {
+        if (
+          this.gameId ===
+          "boss"
+        ) {
 
           state.boss = {
+
             x: 0,
             y: 0,
+
             radius: 58,
+
             health: 10,
             maxHealth: 10,
+
             angle: 0
+
           };
 
           state.bossWeakPoint =
@@ -1649,102 +1944,119 @@
               state.boss
             );
 
-          for (let i = 0; i < 4; i++) {
+          for (
+            let i = 0;
+            i < 4;
+            i++
+          ) {
+
             state.hazards.push({
+
               ...this.randomWorldPoint(95),
+
               radius: 18,
+
               vx:
-                (Math.random() - 0.5) *
-                44,
+                (Math.random()-.5)*44,
+
               vy:
-                (Math.random() - 0.5) *
-                44
+                (Math.random()-.5)*44
+
             });
+
           }
+
         }
 
-        if (this.gameId === "trail2") {
+        if (
+          this.gameId ===
+          "trail2"
+        ) {
 
           state.trails.push({
+
             color:
               "rgba(173,125,255,.75)",
 
             points: [
-              {
-                x: -210,
-                y: -150
-              },
-              {
-                x: -100,
-                y: -150
-              },
-              {
-                x: -100,
-                y: -55
-              }
+
+              {x:-210,y:-150},
+              {x:-100,y:-150},
+              {x:-100,y:-55}
+
             ]
+
           });
 
           state.trails.push({
+
             color:
               "rgba(255,110,151,.74)",
 
             points: [
-              {
-                x: 190,
-                y: 150
-              },
-              {
-                x: 80,
-                y: 150
-              },
-              {
-                x: 80,
-                y: 55
-              }
+
+              {x:190,y:150},
+              {x:80,y:150},
+              {x:80,y:55}
+
             ]
+
           });
 
-          for (let i = 0; i < 4; i++) {
+          for (
+            let i = 0;
+            i < 4;
+            i++
+          ) {
+
             state.hazards.push({
+
               ...this.randomWorldPoint(80),
+
               radius: 17,
+
               vx:
-                (Math.random() - 0.5) *
-                36,
+                (Math.random()-.5)*36,
+
               vy:
-                (Math.random() - 0.5) *
-                36
+                (Math.random()-.5)*36
+
             });
+
           }
+
         }
+
       }
 
       randomWorldPoint(
         padding = 40
       ) {
+
         const size =
-          this.gameState.worldSize;
+          this.state.worldSize;
 
         const half =
           size / 2 - padding;
 
         return {
+
           x:
             -half +
             Math.random() *
-              half *
-              2,
+            half * 2,
 
           y:
             -half +
             Math.random() *
-              half *
-              2
+            half * 2
+
         };
+
       }
 
       makeWeakPoint(boss) {
+
         const angle =
           Math.random() *
           Math.PI *
@@ -1754,79 +2066,68 @@
           boss.radius + 22;
 
         return {
+
           x:
             boss.x +
             Math.cos(angle) *
-              distance,
+            distance,
 
           y:
             boss.y +
             Math.sin(angle) *
-              distance,
+            distance,
 
           radius: 15
+
         };
+
       }
 
-      mountControls() {
-        this.directionInput =
-          new EightDirectionInput();
+      /*
+      ----------------------------------------------------------
+      INPUT -> ENGINE
+      ----------------------------------------------------------
+      */
 
-        this.directionInput.mount(
+      mountInput() {
+
+        this.input.mount(
           this.area,
-          (vector, direction) => {
+          (vector,direction) => {
 
-            if (!this.gameState) {
+            if (!this.state?.active) {
               return;
             }
 
-            this.gameState.movement =
+            this.state.movement =
               vector;
 
             if (direction) {
 
-              this.camera.setDirection(
-                direction
-              );
+              this.camera
+                .setDirection(
+                  direction
+                );
 
-              /*
-                T-Engine tunnel response.
+              const speedMap = {
 
-                Different directions create
-                slightly different spatial flow.
-              */
+                n: 1,
+                ne: 1.08,
+                e: 1.15,
+                se: 1.08,
+                s: .92,
+                sw: 1.08,
+                w: 1.15,
+                nw: 1.08
 
-              if (
-                this.gameState.tunnel
-              ) {
+              };
 
-                const tunnelSpeedMap = {
+              this.state.tunnel.speed =
+                speedMap[direction] ||
+                1;
 
-                  n: 1.00,
-
-                  ne: 1.08,
-
-                  e: 1.15,
-
-                  se: 1.08,
-
-                  s: 0.92,
-
-                  sw: 1.08,
-
-                  w: 1.15,
-
-                  nw: 1.08
-                };
-
-                this.gameState
-                  .tunnel
-                  .speed =
-                  tunnelSpeedMap[
-                    direction
-                  ] || 1;
-              }
             }
+
           }
         );
 
@@ -1848,18 +2149,27 @@
             event.preventDefault();
 
             this.performAction();
+
           },
-          { passive: false }
+          {passive:false}
         );
 
         this.area.appendChild(
           this.actionButton
         );
+
       }
 
+      /*
+      ----------------------------------------------------------
+      ACTIONS
+      ----------------------------------------------------------
+      */
+
       performAction() {
+
         const state =
-          this.gameState;
+          this.state;
 
         if (
           !state ||
@@ -1875,11 +2185,13 @@
           now <
           state.actionCooldownUntil
         ) {
-          this.showToast(
+
+          this.toast(
             "Action recharging"
           );
 
           return;
+
         }
 
         state.actionCooldownUntil =
@@ -1889,37 +2201,48 @@
           now + 180;
 
         this.audio.play("point");
-
         this.audio.vibrate(12);
 
-        if (this.gameId === "trail2") {
+        if (
+          this.gameId ===
+          "trail2"
+        ) {
 
           const vector =
-            this.directionInput.vector;
+            this.input.vector;
 
           if (
-            vector.x === 0 &&
-            vector.y === 0
+            !vector.x &&
+            !vector.y
           ) {
-            this.showToast(
+
+            this.toast(
               "Choose a direction to dash"
             );
 
             return;
+
           }
 
-          state.playerEntity.x +=
-            vector.x * 54;
+          /*
+            Dash transfers bounded movement energy
+            rather than teleporting the player.
+          */
 
-          state.playerEntity.y +=
-            vector.y * 54;
+          state.physics.velocity.x +=
+            vector.x * 190;
 
-          this.clampPlayer();
+          state.physics.velocity.y +=
+            vector.y * 190;
 
-          this.showToast("Dash!");
+          this.toast("Dash!");
+
         }
 
-        if (this.gameId === "quest") {
+        if (
+          this.gameId ===
+          "quest"
+        ) {
 
           const crystal =
             this.nearestEntity(
@@ -1936,8 +2259,7 @@
               1
             );
 
-            state.collected += 1;
-
+            state.collected++;
             state.score += 3;
 
             this.audio.play("gold");
@@ -1949,26 +2271,32 @@
               state.portal.active =
                 true;
 
-              this.showToast(
+              this.toast(
                 "Portal activated!"
               );
 
             } else {
 
-              this.showToast(
+              this.toast(
                 `Crystal ${state.collected}/5`
               );
+
             }
 
           } else {
 
-            this.showToast(
+            this.toast(
               "Move closer to a crystal"
             );
+
           }
+
         }
 
-        if (this.gameId === "brawl") {
+        if (
+          this.gameId ===
+          "brawl"
+        ) {
 
           const enemy =
             this.nearestEntity(
@@ -1980,14 +2308,15 @@
 
           if (!enemy) {
 
-            this.showToast(
+            this.toast(
               "No enemy in range"
             );
 
             return;
+
           }
 
-          enemy.health -= 1;
+          enemy.health--;
 
           state.score += 2;
 
@@ -1999,16 +2328,18 @@
             enemy.y -
             state.playerEntity.y;
 
-          const length =
-            Math.hypot(dx, dy) || 1;
+          const distance =
+            Math.hypot(dx,dy) || 1;
 
           enemy.x +=
-            (dx / length) * 28;
+            dx / distance * 28;
 
           enemy.y +=
-            (dy / length) * 28;
+            dy / distance * 28;
 
-          if (enemy.health <= 0) {
+          if (
+            enemy.health <= 0
+          ) {
 
             enemy.alive = false;
 
@@ -2016,17 +2347,22 @@
 
             this.audio.play("gold");
 
-            this.showToast(
+            this.toast(
               "Enemy knocked out!"
             );
 
           } else {
 
-            this.showToast("Hit!");
+            this.toast("Hit!");
+
           }
+
         }
 
-        if (this.gameId === "treasure") {
+        if (
+          this.gameId ===
+          "treasure"
+        ) {
 
           const treasure =
             this.nearestEntity(
@@ -2051,16 +2387,16 @@
 
             this.audio.play("gold");
 
-            this.showToast(
+            this.toast(
               `Treasure +${treasure.value}`
             );
 
           } else if (
+            state.portal &&
             this.distanceTo(
               state.portal
             ) <
-              state.portal.radius +
-                14 &&
+            state.portal.radius + 14 &&
             state.collected > 0
           ) {
 
@@ -2071,31 +2407,34 @@
 
             this.audio.play("gold");
 
-            this.showToast(
+            this.toast(
               "Treasure banked!"
             );
 
           } else {
 
-            this.showToast(
+            this.toast(
               "Move close to treasure or base"
             );
+
           }
+
         }
 
-        if (this.gameId === "boss") {
+        if (
+          this.gameId ===
+          "boss"
+        ) {
 
-          const weakPoint =
+          const weak =
             state.bossWeakPoint;
 
           if (
-            weakPoint &&
-            this.distanceTo(
-              weakPoint
-            ) < 64
+            weak &&
+            this.distanceTo(weak) < 64
           ) {
 
-            state.boss.health -= 1;
+            state.boss.health--;
 
             state.score += 3;
 
@@ -2106,7 +2445,7 @@
 
             this.audio.play("gold");
 
-            this.showToast(
+            this.toast(
               `Weak point hit! Boss HP ${state.boss.health}`
             );
 
@@ -2116,184 +2455,222 @@
 
               state.score += 12;
 
-              this.finishTurn(true);
+              this.finish(true);
+
             }
 
           } else {
 
-            this.showToast(
+            this.toast(
               "Move close to a glowing weak point"
             );
+
           }
+
         }
+
       }
 
-      nearestEntity(
-        items,
-        range
-      ) {
-        const player =
-          this.gameState.playerEntity;
+      /*
+      ----------------------------------------------------------
+      PHYSICS
+      ----------------------------------------------------------
+      */
 
-        const candidates =
-          items
-            .map(item => ({
-              item,
+      updatePhysics(dt) {
 
-              distance:
-                Math.hypot(
-                  player.x -
-                    item.x,
-
-                  player.y -
-                    item.y
-                )
-            }))
-
-            .filter(
-              item =>
-                item.distance <=
-                range
-            )
-
-            .sort(
-              (a, b) =>
-                a.distance -
-                b.distance
-            );
-
-        return (
-          candidates[0]?.item ||
-          null
-        );
-      }
-
-      distanceTo(entity) {
-        const player =
-          this.gameState.playerEntity;
-
-        return Math.hypot(
-          player.x - entity.x,
-          player.y - entity.y
-        );
-      }
-
-      loop(now) {
         const state =
-          this.gameState;
-
-        if (
-          !state ||
-          !state.active
-        ) {
-          return;
-        }
-
-        const deltaSeconds =
-          Math.min(
-            (now - this.lastFrame) /
-              1000,
-            0.05
-          );
-
-        this.lastFrame = now;
-
-        state.timeLeft =
-          Math.max(
-            0,
-            this.config.duration -
-              (now -
-                state.startedAt)
-          );
-
-        this.update(
-          deltaSeconds,
-          now
-        );
-
-        this.draw();
-
-        this.updateHUD();
-
-        if (
-          state.timeLeft <= 0
-        ) {
-
-          this.finishTurn(false);
-
-          return;
-        }
-
-        this.frame =
-          requestAnimationFrame(
-            nextNow =>
-              this.loop(nextNow)
-          );
-      }
-
-      update(
-        deltaSeconds,
-        now
-      ) {
-        const state =
-          this.gameState;
+          this.state;
 
         const player =
           state.playerEntity;
 
-        const speed =
-          player.speed;
+        const physics =
+          state.physics;
 
-        /*
-          T-ENGINE 3D DEPTH MOTION
-        */
+        const input =
+          state.movement;
+
+        const targetVX =
+          input.x *
+          physics.maxSpeed;
+
+        const targetVY =
+          input.y *
+          physics.maxSpeed;
+
+        const blend =
+          Math.min(
+            1,
+            physics.acceleration *
+            dt /
+            physics.maxSpeed
+          );
+
+        physics.velocity.x +=
+          (
+            targetVX -
+            physics.velocity.x
+          ) * blend;
+
+        physics.velocity.y +=
+          (
+            targetVY -
+            physics.velocity.y
+          ) * blend;
 
         if (
-          state.tunnel?.active
+          input.x === 0 &&
+          input.y === 0
         ) {
 
-          state.tunnel.depth +=
-            deltaSeconds *
-            state.tunnel.speed;
+          const drag =
+            Math.exp(
+              -physics.drag *
+              dt
+            );
 
-          if (
-            state.tunnel.depth >
-            1
-          ) {
-            state.tunnel.depth -= 1;
-          }
+          physics.velocity.x *= drag;
+          physics.velocity.y *= drag;
+
         }
 
         /*
-          Normal game movement.
+          Hard velocity ceiling.
         */
 
+        const speed =
+          Math.hypot(
+            physics.velocity.x,
+            physics.velocity.y
+          );
+
+        if (
+          speed >
+          physics.maxSpeed
+        ) {
+
+          physics.velocity.x =
+            physics.velocity.x /
+            speed *
+            physics.maxSpeed;
+
+          physics.velocity.y =
+            physics.velocity.y /
+            speed *
+            physics.maxSpeed;
+
+        }
+
         player.x +=
-          state.movement.x *
-          speed *
-          deltaSeconds;
+          physics.velocity.x *
+          dt;
 
         player.y +=
-          state.movement.y *
-          speed *
-          deltaSeconds;
+          physics.velocity.y *
+          dt;
 
         this.clampPlayer();
 
-        this.camera.update(
-          deltaSeconds
-        );
+      }
+
+      clampPlayer() {
+
+        const state =
+          this.state;
+
+        const player =
+          state.playerEntity;
+
+        const half =
+          state.worldSize / 2 -
+          player.radius;
+
+        if (player.x < -half) {
+
+          player.x = -half;
+
+          state.physics.velocity.x =
+            Math.abs(
+              state.physics.velocity.x
+            ) * .35;
+
+        }
+
+        if (player.x > half) {
+
+          player.x = half;
+
+          state.physics.velocity.x =
+            -Math.abs(
+              state.physics.velocity.x
+            ) * .35;
+
+        }
+
+        if (player.y < -half) {
+
+          player.y = -half;
+
+          state.physics.velocity.y =
+            Math.abs(
+              state.physics.velocity.y
+            ) * .35;
+
+        }
+
+        if (player.y > half) {
+
+          player.y = half;
+
+          state.physics.velocity.y =
+            -Math.abs(
+              state.physics.velocity.y
+            ) * .35;
+
+        }
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      UPDATE
+      ----------------------------------------------------------
+      */
+
+      update(dt,now) {
+
+        const state =
+          this.state;
+
+        const player =
+          state.playerEntity;
+
+        if (
+          state.tunnel.active
+        ) {
+
+          state.tunnel.depth +=
+            dt *
+            state.tunnel.speed;
+
+          state.tunnel.depth =
+            state.tunnel.depth % 1;
+
+        }
+
+        this.updatePhysics(dt);
+
+        this.camera.update(dt);
 
         state.hazards.forEach(
           hazard => {
 
             hazard.x +=
-              hazard.vx *
-              deltaSeconds;
+              hazard.vx * dt;
 
             hazard.y +=
-              hazard.vy *
-              deltaSeconds;
+              hazard.vy * dt;
 
             const half =
               state.worldSize / 2 -
@@ -2303,89 +2680,98 @@
               hazard.x < -half ||
               hazard.x > half
             ) {
+
               hazard.vx *= -1;
+
             }
 
             if (
               hazard.y < -half ||
               hazard.y > half
             ) {
+
               hazard.vy *= -1;
+
             }
 
             if (
               Math.hypot(
                 player.x -
-                  hazard.x,
+                hazard.x,
 
                 player.y -
-                  hazard.y
+                hazard.y
               ) <
               player.radius +
-                hazard.radius
+              hazard.radius
             ) {
-              this.playerHit(
-                hazard
-              );
+
+              this.playerHit(hazard);
+
             }
+
           }
         );
 
         if (
-          this.gameId === "trail2"
+          this.gameId ===
+          "trail2"
         ) {
 
-          state.trailTimer +=
-            deltaSeconds;
+          state.trailTimer += dt;
 
           if (
-            state.trailTimer >
-            0.08
+            state.trailTimer > .08
           ) {
 
             state.trailTimer = 0;
 
-            const ownTrail =
+            let ownTrail =
               state.trails.find(
                 item =>
                   item.playerTrail
               );
 
-            if (ownTrail) {
+            if (!ownTrail) {
 
-              ownTrail.points.push({
-                x: player.x,
-                y: player.y
-              });
+              ownTrail = {
 
-              if (
-                ownTrail.points.length >
-                180
-              ) {
-                ownTrail.points.shift();
-              }
-
-            } else {
-
-              state.trails.push({
                 playerTrail: true,
-                color: player.color,
 
-                points: [{
-                  x: player.x,
-                  y: player.y
-                }]
-              });
+                color:
+                  player.color,
+
+                points: []
+
+              };
+
+              state.trails.push(
+                ownTrail
+              );
+
             }
+
+            ownTrail.points.push({
+
+              x: player.x,
+              y: player.y
+
+            });
+
+            if (
+              ownTrail.points.length >
+              180
+            ) {
+
+              ownTrail.points.shift();
+
+            }
+
           }
 
           for (
-            const trail
-            of state.trails
+            const trail of state.trails
           ) {
-
-            const isOwnTrail =
-              trail.playerTrail;
 
             for (
               let i = 0;
@@ -2396,37 +2782,37 @@
               const point =
                 trail.points[i];
 
+              const own =
+                trail.playerTrail;
+
               if (
                 Math.hypot(
-                  player.x -
-                    point.x,
-
-                  player.y -
-                    point.y
+                  player.x-point.x,
+                  player.y-point.y
                 ) <
-                  player.radius +
-                    7 &&
-
+                player.radius + 7 &&
                 (
-                  !isOwnTrail ||
+                  !own ||
                   i <
-                    trail.points.length -
-                      10
+                  trail.points.length - 10
                 )
               ) {
 
-                this.finishTurn(
-                  false
-                );
+                this.finish(false);
 
                 return;
+
               }
+
             }
+
           }
+
         }
 
         if (
-          this.gameId === "brawl"
+          this.gameId ===
+          "brawl"
         ) {
 
           state.enemies
@@ -2438,50 +2824,84 @@
               enemy => {
 
                 enemy.phase +=
-                  deltaSeconds *
-                  2.2;
+                  dt * 2.2;
 
                 enemy.x +=
                   Math.cos(
                     enemy.phase
                   ) *
                   18 *
-                  deltaSeconds;
+                  dt;
 
                 enemy.y +=
                   Math.sin(
-                    enemy.phase *
-                      1.3
+                    enemy.phase * 1.3
                   ) *
                   18 *
-                  deltaSeconds;
+                  dt;
 
                 if (
                   Math.hypot(
-                    player.x -
-                      enemy.x,
-
-                    player.y -
-                      enemy.y
+                    player.x-enemy.x,
+                    player.y-enemy.y
                   ) <
                   player.radius +
-                    enemy.radius
+                  enemy.radius
                 ) {
+
                   this.playerHit(
                     enemy
                   );
+
                 }
+
               }
             );
+
         }
 
         if (
-          this.gameId === "boss"
+          this.gameId ===
+          "quest"
+        ) {
+
+          if (
+            state.portal?.active &&
+            this.distanceTo(
+              state.portal
+            ) <
+            state.portal.radius +
+            player.radius
+          ) {
+
+            this.finish(true);
+
+            return;
+
+          }
+
+        }
+
+        if (
+          this.gameId ===
+          "treasure"
+        ) {
+
+          /*
+            Treasure can only be scored by returning
+            to the base. Carrying is intentionally separate
+            from banked score.
+          */
+
+        }
+
+        if (
+          this.gameId ===
+          "boss"
         ) {
 
           state.boss.angle +=
-            deltaSeconds *
-            0.9;
+            dt * .9;
 
           if (
             now >
@@ -2500,103 +2920,86 @@
               state.boss.y;
 
             const distance =
-              Math.hypot(
-                dx,
-                dy
-              ) || 1;
+              Math.hypot(dx,dy) || 1;
 
             state.hazards.push({
+
               x: state.boss.x,
               y: state.boss.y,
+
               radius: 14,
 
               vx:
-                (dx / distance) *
-                130,
+                dx / distance * 130,
 
               vy:
-                (dy / distance) *
-                130,
+                dy / distance * 130,
 
               bossShot: true
+
             });
 
-            this.showToast(
+            this.toast(
               "Boss attack!"
             );
+
           }
+
         }
+
       }
 
-      clampPlayer() {
-        const state =
-          this.gameState;
-
-        const half =
-          state.worldSize / 2 -
-          state.playerEntity.radius;
-
-        state.playerEntity.x =
-          Math.max(
-            -half,
-            Math.min(
-              half,
-              state.playerEntity.x
-            )
-          );
-
-        state.playerEntity.y =
-          Math.max(
-            -half,
-            Math.min(
-              half,
-              state.playerEntity.y
-            )
-          );
-      }
+      /*
+      ----------------------------------------------------------
+      COLLISION
+      ----------------------------------------------------------
+      */
 
       playerHit(hazard) {
+
         const state =
-          this.gameState;
+          this.state;
+
+        const now =
+          performance.now();
 
         if (
-          state.lastHitAt &&
-          performance.now() -
-            state.lastHitAt <
-            700
+          now -
+          state.lastHitAt <
+          700
         ) {
           return;
         }
 
         state.lastHitAt =
-          performance.now();
+          now;
 
         if (
-          this.gameId === "boss"
+          this.gameId ===
+          "boss"
         ) {
 
-          state.health -= 1;
+          state.health--;
 
           this.audio.play("hit");
-
           this.audio.vibrate(35);
 
           if (
             state.health <= 0
           ) {
 
-            this.finishTurn(
-              false
-            );
+            this.finish(false);
 
           } else {
 
-            this.showToast(
+            this.toast(
               `Hit! HP ${state.health}`
             );
+
           }
 
           return;
+
         }
 
         state.score =
@@ -2609,664 +3012,181 @@
         hazard.vy *= -1;
 
         this.audio.play("hit");
-
         this.audio.vibrate(25);
+
+      }
+
+      nearestEntity(
+        items,
+        range
+      ) {
+
+        const player =
+          this.state.playerEntity;
+
+        let best = null;
+        let bestDistance =
+          Infinity;
+
+        for (
+          const item of items
+        ) {
+
+          const distance =
+            Math.hypot(
+              player.x-item.x,
+              player.y-item.y
+            );
+
+          if (
+            distance <= range &&
+            distance < bestDistance
+          ) {
+
+            best = item;
+            bestDistance = distance;
+
+          }
+
+        }
+
+        return best;
+
+      }
+
+      distanceTo(entity) {
+
+        const player =
+          this.state.playerEntity;
+
+        return Math.hypot(
+          player.x-entity.x,
+          player.y-entity.y
+        );
+
       }
 
       /*
-        ========================================================
-        T-ENGINE 3D MULTIDIRECTIONAL TUNNEL
-        ========================================================
-
-        This is a reusable rendering layer.
-
-        It creates:
-        - perspective rings
-        - depth grid
-        - floor grid
-        - ceiling grid
-        - converging rails
-        - eight directional branches
-        - animated vanishing point
-
-        No image assets required.
+      ----------------------------------------------------------
+      LOOP
+      ----------------------------------------------------------
       */
 
-      drawTunnelSystem(
-        ctx,
-        state,
-        width,
-        height
-      ) {
+      loop(now) {
+
+        if (!this.running) {
+          return;
+        }
+
+        const state =
+          this.state;
+
         if (
-          !state.tunnel?.active
+          !state ||
+          !state.active
         ) {
           return;
         }
 
-        const tunnel =
-          state.tunnel;
-
-        const horizon =
-          height * 0.43;
-
-        const maxDepth =
-          Math.max(
-            width,
-            height
-          ) * 1.65;
-
-        const nearWidth =
-          width *
-          0.82 *
-          tunnel.width;
-
-        const nearHeight =
-          height *
-          0.72 *
-          tunnel.height;
-
-        const farWidth =
-          width * 0.045;
-
-        const farHeight =
-          height * 0.035;
-
-        const centerX = 0;
-
-        const centerY =
-          horizon;
-
-        /*
-          Ambient tunnel glow.
-        */
-
-        const glow =
-          ctx.createRadialGradient(
-            centerX,
-            centerY,
-            4,
-
-            centerX,
-            centerY,
-            maxDepth
-          );
-
-        glow.addColorStop(
-          0,
-          "rgba(87,229,255,.16)"
-        );
-
-        glow.addColorStop(
-          0.35,
-          "rgba(173,125,255,.08)"
-        );
-
-        glow.addColorStop(
-          1,
-          "rgba(0,0,0,0)"
-        );
-
-        ctx.fillStyle = glow;
-
-        ctx.fillRect(
-          -width / 2,
-          -height / 2,
-          width,
-          height
-        );
-
-        /*
-          Perspective function.
-
-          z = 0 → near
-          z = 1 → far
-        */
-
-        const perspective =
-          z => {
-
-            const p =
-              Math.pow(
-                Math.max(
-                  0.001,
-                  1 - z
-                ),
-                1.72
-              );
-
-            return {
-              width:
-                farWidth +
-                (
-                  nearWidth -
-                  farWidth
-                ) * p,
-
-              height:
-                farHeight +
-                (
-                  nearHeight -
-                  farHeight
-                ) * p,
-
-              x: centerX,
-
-              y:
-                centerY -
-                height *
-                  0.035 *
-                  p
-            };
-          };
-
-        /*
-          ======================================================
-          PERSPECTIVE RINGS
-          ======================================================
-        */
-
-        for (
-          let i =
-            tunnel.ringCount;
-
-          i >= 0;
-
-          i--
-        ) {
-
-          const normalized =
-            (
-              i /
-                tunnel.ringCount +
-              tunnel.depth
-            ) % 1;
-
-          const z =
-            normalized;
-
-          const p =
-            perspective(z);
-
-          const ringAlpha =
-            0.08 +
-            Math.pow(
-              1 - z,
-              1.5
-            ) *
-              0.30;
-
-          ctx.beginPath();
-
-          ctx.rect(
-            p.x -
-              p.width / 2,
-
-            p.y -
-              p.height / 2,
-
-            p.width,
-            p.height
-          );
-
-          ctx.strokeStyle =
-            `rgba(87,229,255,${ringAlpha})`;
-
-          ctx.lineWidth =
-            Math.max(
-              0.7,
-              2.2 *
-                (1 - z)
-            );
-
-          ctx.stroke();
-        }
-
-        /*
-          ======================================================
-          CONVERGING TUNNEL RAILS
-          ======================================================
-        */
-
-        const railPoints = [
-
-          [-0.5, -0.5],
-          [0.0, -0.5],
-          [0.5, -0.5],
-
-          [-0.5, 0.0],
-          [0.5, 0.0],
-
-          [-0.5, 0.5],
-          [0.0, 0.5],
-          [0.5, 0.5]
-
-        ];
-
-        railPoints.forEach(
-          ([rx, ry]) => {
-
-            ctx.beginPath();
-
-            const near =
-              perspective(0);
-
-            const far =
-              perspective(0.98);
-
-            ctx.moveTo(
-              near.x +
-                near.width * rx,
-
-              near.y +
-                near.height * ry
-            );
-
-            ctx.lineTo(
-              far.x +
-                far.width * rx,
-
-              far.y +
-                far.height * ry
-            );
-
-            ctx.strokeStyle =
-              "rgba(173,125,255,.18)";
-
-            ctx.lineWidth = 1;
-
-            ctx.stroke();
-          }
-        );
-
-        /*
-          ======================================================
-          DEPTH MEASUREMENT GRID
-          ======================================================
-        */
-
-        for (
-          let i = 0;
-          i < 9;
-          i++
-        ) {
-
-          const z =
-            i / 9;
-
-          const p =
-            perspective(z);
-
-          ctx.beginPath();
-
-          ctx.moveTo(
-            p.x -
-              p.width / 2,
-
-            p.y
-          );
-
-          ctx.lineTo(
-            p.x +
-              p.width / 2,
-
-            p.y
-          );
-
-          ctx.moveTo(
-            p.x,
-
-            p.y -
-              p.height / 2
-          );
-
-          ctx.lineTo(
-            p.x,
-
-            p.y +
-              p.height / 2
-          );
-
-          ctx.strokeStyle =
-            `rgba(255,255,255,${0.035 + (1 - z) * 0.06})`;
-
-          ctx.lineWidth = 1;
-
-          ctx.stroke();
-        }
-
-        /*
-          ======================================================
-          FLOOR DEPTH GRID
-          ======================================================
-        */
-
-        for (
-          let i = 0;
-          i < 13;
-          i++
-        ) {
-
-          const z =
-            (
-              i / 13 +
-              tunnel.depth *
-                0.72
-            ) % 1;
-
-          const p =
-            perspective(z);
-
-          ctx.beginPath();
-
-          ctx.moveTo(
-            p.x -
-              p.width / 2,
-
-            p.y +
-              p.height / 2
-          );
-
-          ctx.lineTo(
-            p.x +
-              p.width / 2,
-
-            p.y +
-              p.height / 2
-          );
-
-          ctx.strokeStyle =
-            `rgba(87,229,255,${0.04 + (1 - z) * 0.10})`;
-
-          ctx.lineWidth = 1;
-
-          ctx.stroke();
-        }
-
-        /*
-          ======================================================
-          CEILING DEPTH GRID
-          ======================================================
-        */
-
-        for (
-          let i = 0;
-          i < 13;
-          i++
-        ) {
-
-          const z =
-            (
-              i / 13 +
-              tunnel.depth *
-                0.72
-            ) % 1;
-
-          const p =
-            perspective(z);
-
-          ctx.beginPath();
-
-          ctx.moveTo(
-            p.x -
-              p.width / 2,
-
-            p.y -
-              p.height / 2
-          );
-
-          ctx.lineTo(
-            p.x +
-              p.width / 2,
-
-            p.y -
-              p.height / 2
-          );
-
-          ctx.strokeStyle =
-            `rgba(173,125,255,${0.035 + (1 - z) * 0.08})`;
-
-          ctx.lineWidth = 1;
-
-          ctx.stroke();
-        }
-
-        /*
-          ======================================================
-          EIGHT DIRECTIONAL BRANCH TUNNELS
-          ======================================================
-        */
-
-        const branchDirections = [
-
-          {
-            x: 0,
-            y: -1,
-            label: "N"
-          },
-
-          {
-            x: 0.707,
-            y: -0.707,
-            label: "NE"
-          },
-
-          {
-            x: 1,
-            y: 0,
-            label: "E"
-          },
-
-          {
-            x: 0.707,
-            y: 0.707,
-            label: "SE"
-          },
-
-          {
-            x: 0,
-            y: 1,
-            label: "S"
-          },
-
-          {
-            x: -0.707,
-            y: 0.707,
-            label: "SW"
-          },
-
-          {
-            x: -1,
-            y: 0,
-            label: "W"
-          },
-
-          {
-            x: -0.707,
-            y: -0.707,
-            label: "NW"
-          }
-
-        ];
-
-        const branchDistance =
+        const dt =
           Math.min(
-            width,
-            height
-          ) * 0.39;
+            (now-this.lastFrame)/1000,
+            .05
+          );
 
-        branchDirections.forEach(
-          (branch, index) => {
+        this.lastFrame = now;
 
-            const pulse =
-              0.65 +
-              Math.sin(
-                performance.now() /
-                  900 +
-                index
-              ) *
-                0.15;
+        state.timeLeft =
+          Math.max(
+            0,
+            this.config.duration -
+            (
+              now -
+              state.startedAt
+            )
+          );
 
-            const bx =
-              branch.x *
-              branchDistance;
-
-            const by =
-              horizon +
-              branch.y *
-                branchDistance *
-                0.55;
-
-            /*
-              Rear branches are dimmer.
-              This preserves visual readability.
-            */
-
-            const visibility =
-              branch.y < 0
-                ? 0.42
-                : 0.20;
-
-            ctx.save();
-
-            ctx.translate(
-              bx,
-              by
-            );
-
-            ctx.rotate(
-              Math.atan2(
-                branch.y,
-                branch.x
-              ) +
-                Math.PI / 2
-            );
-
-            const branchWidth =
-              Math.min(
-                width,
-                height
-              ) *
-              0.12 *
-              pulse;
-
-            const branchHeight =
-              Math.min(
-                width,
-                height
-              ) *
-              0.07 *
-              pulse;
-
-            /*
-              Outer branch mouth.
-            */
-
-            ctx.beginPath();
-
-            ctx.ellipse(
-              0,
-              0,
-              branchWidth,
-              branchHeight,
-              0,
-              0,
-              Math.PI * 2
-            );
-
-            ctx.strokeStyle =
-              `rgba(87,229,255,${visibility})`;
-
-            ctx.lineWidth = 2;
-
-            ctx.shadowColor =
-              "#57e5ff";
-
-            ctx.shadowBlur = 14;
-
-            ctx.stroke();
-
-            /*
-              Inner branch depth.
-            */
-
-            ctx.beginPath();
-
-            ctx.ellipse(
-              0,
-              0,
-
-              branchWidth *
-                0.58,
-
-              branchHeight *
-                0.58,
-
-              0,
-              0,
-              Math.PI * 2
-            );
-
-            ctx.fillStyle =
-              "rgba(20,24,52,.72)";
-
-            ctx.fill();
-
-            ctx.strokeStyle =
-              `rgba(173,125,255,${visibility * 0.75})`;
-
-            ctx.lineWidth = 1.5;
-
-            ctx.stroke();
-
-            ctx.shadowBlur = 0;
-
-            ctx.restore();
-          }
+        this.update(
+          dt,
+          now
         );
 
-        /*
-          ======================================================
-          CENTRAL VANISHING POINT
-          ======================================================
-        */
+        this.render();
 
-        ctx.beginPath();
+        if (
+          state.timeLeft <= 0
+        ) {
 
-        ctx.arc(
-          centerX,
-          centerY,
+          this.finish(false);
 
-          4 +
-            Math.sin(
-              performance.now() /
-                300
-            ) *
-              1.5,
+          return;
 
-          0,
-          Math.PI * 2
-        );
+        }
 
-        ctx.fillStyle =
-          "#57e5ff";
+        this.frame =
+          requestAnimationFrame(
+            next =>
+              this.loop(next)
+          );
 
-        ctx.shadowColor =
-          "#57e5ff";
-
-        ctx.shadowBlur = 18;
-
-        ctx.fill();
-
-        ctx.shadowBlur = 0;
       }
 
-      draw() {
-        const state =
-          this.gameState;
+      /*
+      ==========================================================
+      RENDERER
+      ==========================================================
 
-        const ctx =
-          this.ctx;
+      Everything below this line belongs to the T-Engine
+      viewport only.
+      ==========================================================
+      */
+
+      resize() {
+
+        if (!this.area) {
+          return;
+        }
+
+        const rect =
+          this.area.getBoundingClientRect();
+
+        const dpr =
+          Math.min(
+            window.devicePixelRatio || 1,
+            2
+          );
+
+        this.canvas.width =
+          Math.max(
+            1,
+            Math.floor(
+              rect.width * dpr
+            )
+          );
+
+        this.canvas.height =
+          Math.max(
+            1,
+            Math.floor(
+              rect.height * dpr
+            )
+          );
+
+        this.ctx.setTransform(
+          dpr,
+          0,
+          0,
+          dpr,
+          0,
+          0
+        );
+
+      }
+
+      render() {
+
+        const state =
+          this.state;
 
         const rect =
           this.area.getBoundingClientRect();
@@ -3282,6 +3202,9 @@
             width,
             height
           ) / 600;
+
+        const ctx =
+          this.ctx;
 
         ctx.clearRect(
           0,
@@ -3320,16 +3243,9 @@
         ctx.save();
 
         ctx.translate(
-          width / 2,
-          height / 2
+          width/2,
+          height/2
         );
-
-        /*
-          Virtual T-engine camera.
-
-          The world rotates opposite
-          the camera heading.
-        */
 
         ctx.rotate(
           -this.camera.angle
@@ -3345,25 +3261,16 @@
           -state.playerEntity.y
         );
 
-        /*
-          Existing 2D arena remains intact.
-        */
-
         this.drawWorldFloor(
           ctx,
           state
         );
 
-        /*
-          NEW:
-          T-Engine spatial layer.
-        */
-
         this.drawTunnelSystem(
           ctx,
           state,
-          width / scale,
-          height / scale
+          width/scale,
+          height/scale
         );
 
         this.drawBase(
@@ -3399,14 +3306,13 @@
           height,
           state
         );
+
       }
 
-      drawWorldFloor(
-        ctx,
-        state
-      ) {
+      drawWorldFloor(ctx,state) {
+
         const half =
-          state.worldSize / 2;
+          state.worldSize/2;
 
         const size =
           state.worldSize;
@@ -3427,9 +3333,9 @@
         ctx.lineWidth = 1;
 
         for (
-          let x = -half;
-          x <= half;
-          x += 35
+          let x=-half;
+          x<=half;
+          x+=35
         ) {
 
           ctx.beginPath();
@@ -3445,12 +3351,13 @@
           );
 
           ctx.stroke();
+
         }
 
         for (
-          let y = -half;
-          y <= half;
-          y += 35
+          let y=-half;
+          y<=half;
+          y+=35
         ) {
 
           ctx.beginPath();
@@ -3466,6 +3373,7 @@
           );
 
           ctx.stroke();
+
         }
 
         ctx.strokeStyle =
@@ -3479,15 +3387,482 @@
           size,
           size
         );
+
       }
 
-      drawBase(
+      drawTunnelSystem(
         ctx,
-        state
+        state,
+        width,
+        height
       ) {
+
         if (
-          !state.portal ||
-          !state.portal.base
+          !state.tunnel.active
+        ) {
+          return;
+        }
+
+        const tunnel =
+          state.tunnel;
+
+        const horizon =
+          height*.43;
+
+        const maxDepth =
+          Math.max(
+            width,
+            height
+          )*1.65;
+
+        const nearWidth =
+          width*.82*
+          tunnel.width;
+
+        const nearHeight =
+          height*.72*
+          tunnel.height;
+
+        const farWidth =
+          width*.045;
+
+        const farHeight =
+          height*.035;
+
+        const centerX = 0;
+
+        const centerY =
+          horizon;
+
+        const glow =
+          ctx.createRadialGradient(
+            centerX,
+            centerY,
+            4,
+            centerX,
+            centerY,
+            maxDepth
+          );
+
+        glow.addColorStop(
+          0,
+          "rgba(87,229,255,.16)"
+        );
+
+        glow.addColorStop(
+          .35,
+          "rgba(173,125,255,.08)"
+        );
+
+        glow.addColorStop(
+          1,
+          "rgba(0,0,0,0)"
+        );
+
+        ctx.fillStyle = glow;
+
+        ctx.fillRect(
+          -width/2,
+          -height/2,
+          width,
+          height
+        );
+
+        const perspective =
+          z => {
+
+            const p =
+              Math.pow(
+                Math.max(
+                  .001,
+                  1-z
+                ),
+                1.72
+              );
+
+            return {
+
+              width:
+                farWidth +
+                (
+                  nearWidth -
+                  farWidth
+                )*p,
+
+              height:
+                farHeight +
+                (
+                  nearHeight -
+                  farHeight
+                )*p,
+
+              x:centerX,
+
+              y:
+                centerY -
+                height*.035*p
+
+            };
+
+          };
+
+        for (
+          let i=tunnel.ringCount;
+          i>=0;
+          i--
+        ) {
+
+          const z =
+            (
+              i/
+              tunnel.ringCount +
+              tunnel.depth
+            )%1;
+
+          const p =
+            perspective(z);
+
+          const alpha =
+            .08 +
+            Math.pow(
+              1-z,
+              1.5
+            )*.30;
+
+          ctx.beginPath();
+
+          ctx.rect(
+            p.x-p.width/2,
+            p.y-p.height/2,
+            p.width,
+            p.height
+          );
+
+          ctx.strokeStyle =
+            `rgba(87,229,255,${alpha})`;
+
+          ctx.lineWidth =
+            Math.max(
+              .7,
+              2.2*(1-z)
+            );
+
+          ctx.stroke();
+
+        }
+
+        const rails = [
+
+          [-.5,-.5],
+          [0,-.5],
+          [.5,-.5],
+
+          [-.5,0],
+          [.5,0],
+
+          [-.5,.5],
+          [0,.5],
+          [.5,.5]
+
+        ];
+
+        rails.forEach(
+          ([rx,ry]) => {
+
+            const near =
+              perspective(0);
+
+            const far =
+              perspective(.98);
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+              near.x+
+              near.width*rx,
+              near.y+
+              near.height*ry
+            );
+
+            ctx.lineTo(
+              far.x+
+              far.width*rx,
+              far.y+
+              far.height*ry
+            );
+
+            ctx.strokeStyle =
+              "rgba(173,125,255,.18)";
+
+            ctx.lineWidth = 1;
+
+            ctx.stroke();
+
+          }
+        );
+
+        /*
+          Depth measurement grid.
+        */
+
+        for (
+          let i=0;
+          i<9;
+          i++
+        ) {
+
+          const z=i/9;
+
+          const p=
+            perspective(z);
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            p.x-p.width/2,
+            p.y
+          );
+
+          ctx.lineTo(
+            p.x+p.width/2,
+            p.y
+          );
+
+          ctx.moveTo(
+            p.x,
+            p.y-p.height/2
+          );
+
+          ctx.lineTo(
+            p.x,
+            p.y+p.height/2
+          );
+
+          ctx.strokeStyle =
+            `rgba(255,255,255,${.035+(1-z)*.06})`;
+
+          ctx.lineWidth=1;
+
+          ctx.stroke();
+
+        }
+
+        /*
+          Floor and ceiling depth lines.
+        */
+
+        for (
+          let i=0;
+          i<13;
+          i++
+        ) {
+
+          const z =
+            (
+              i/13+
+              tunnel.depth*.72
+            )%1;
+
+          const p =
+            perspective(z);
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            p.x-p.width/2,
+            p.y+p.height/2
+          );
+
+          ctx.lineTo(
+            p.x+p.width/2,
+            p.y+p.height/2
+          );
+
+          ctx.strokeStyle =
+            `rgba(87,229,255,${.04+(1-z)*.10})`;
+
+          ctx.stroke();
+
+          ctx.beginPath();
+
+          ctx.moveTo(
+            p.x-p.width/2,
+            p.y-p.height/2
+          );
+
+          ctx.lineTo(
+            p.x+p.width/2,
+            p.y-p.height/2
+          );
+
+          ctx.strokeStyle =
+            `rgba(173,125,255,${.035+(1-z)*.08})`;
+
+          ctx.stroke();
+
+        }
+
+        /*
+          Eight directional branch mouths.
+        */
+
+        const branches = [
+
+          [0,-1,"N"],
+          [.707,-.707,"NE"],
+          [1,0,"E"],
+          [.707,.707,"SE"],
+          [0,1,"S"],
+          [-.707,.707,"SW"],
+          [-1,0,"W"],
+          [-.707,-.707,"NW"]
+
+        ];
+
+        const branchDistance =
+          Math.min(
+            width,
+            height
+          )*.39;
+
+        branches.forEach(
+          ([bxDir,byDir,label],index) => {
+
+            const pulse =
+              .65+
+              Math.sin(
+                performance.now()/900+
+                index
+              )*.15;
+
+            const bx =
+              bxDir*
+              branchDistance;
+
+            const by =
+              horizon+
+              byDir*
+              branchDistance*
+              .55;
+
+            const visibility =
+              byDir<0
+                ? .42
+                : .20;
+
+            ctx.save();
+
+            ctx.translate(
+              bx,
+              by
+            );
+
+            ctx.rotate(
+              Math.atan2(
+                byDir,
+                bxDir
+              )+
+              Math.PI/2
+            );
+
+            const branchWidth =
+              Math.min(
+                width,
+                height
+              )*.12*pulse;
+
+            const branchHeight =
+              Math.min(
+                width,
+                height
+              )*.07*pulse;
+
+            ctx.beginPath();
+
+            ctx.ellipse(
+              0,
+              0,
+              branchWidth,
+              branchHeight,
+              0,
+              0,
+              Math.PI*2
+            );
+
+            ctx.strokeStyle =
+              `rgba(87,229,255,${visibility})`;
+
+            ctx.lineWidth=2;
+
+            ctx.shadowColor =
+              "#57e5ff";
+
+            ctx.shadowBlur=14;
+
+            ctx.stroke();
+
+            ctx.beginPath();
+
+            ctx.ellipse(
+              0,
+              0,
+              branchWidth*.58,
+              branchHeight*.58,
+              0,
+              0,
+              Math.PI*2
+            );
+
+            ctx.fillStyle =
+              "rgba(20,24,52,.72)";
+
+            ctx.fill();
+
+            ctx.strokeStyle =
+              `rgba(173,125,255,${visibility*.75})`;
+
+            ctx.lineWidth=1.5;
+
+            ctx.stroke();
+
+            ctx.shadowBlur=0;
+
+            ctx.restore();
+
+          }
+        );
+
+        ctx.beginPath();
+
+        ctx.arc(
+          centerX,
+          centerY,
+          4+
+          Math.sin(
+            performance.now()/300
+          )*1.5,
+          0,
+          Math.PI*2
+        );
+
+        ctx.fillStyle =
+          "#57e5ff";
+
+        ctx.shadowColor =
+          "#57e5ff";
+
+        ctx.shadowBlur=18;
+
+        ctx.fill();
+
+        ctx.shadowBlur=0;
+
+      }
+
+      drawBase(ctx,state) {
+
+        if (
+          !state.portal?.base
         ) {
           return;
         }
@@ -3506,7 +3881,7 @@
           0,
           state.portal.radius,
           0,
-          Math.PI * 2
+          Math.PI*2
         );
 
         ctx.fillStyle =
@@ -3515,7 +3890,7 @@
         ctx.shadowColor =
           "#57e5ff";
 
-        ctx.shadowBlur = 24;
+        ctx.shadowBlur=24;
 
         ctx.fill();
 
@@ -3524,10 +3899,9 @@
         ctx.arc(
           0,
           0,
-          state.portal.radius *
-            0.65,
+          state.portal.radius*.65,
           0,
-          Math.PI * 2
+          Math.PI*2
         );
 
         ctx.fillStyle =
@@ -3536,19 +3910,17 @@
         ctx.fill();
 
         ctx.restore();
+
       }
 
-      drawTrails(
-        ctx,
-        state
-      ) {
+      drawTrails(ctx,state) {
+
         state.trails.forEach(
           trail => {
 
             if (
               !trail.points ||
-              trail.points.length <
-                2
+              trail.points.length<2
             ) {
               return;
             }
@@ -3561,9 +3933,8 @@
             );
 
             for (
-              let i = 1;
-              i <
-                trail.points.length;
+              let i=1;
+              i<trail.points.length;
               i++
             ) {
 
@@ -3571,6 +3942,7 @@
                 trail.points[i].x,
                 trail.points[i].y
               );
+
             }
 
             ctx.strokeStyle =
@@ -3590,19 +3962,19 @@
             ctx.shadowColor =
               trail.color;
 
-            ctx.shadowBlur = 9;
+            ctx.shadowBlur=9;
 
             ctx.stroke();
 
-            ctx.shadowBlur = 0;
+            ctx.shadowBlur=0;
+
           }
         );
+
       }
 
-      drawHazards(
-        ctx,
-        state
-      ) {
+      drawHazards(ctx,state) {
+
         state.hazards.forEach(
           hazard => {
 
@@ -3613,7 +3985,7 @@
               hazard.y,
               hazard.radius,
               0,
-              Math.PI * 2
+              Math.PI*2
             );
 
             ctx.fillStyle =
@@ -3624,29 +3996,28 @@
             ctx.shadowColor =
               ctx.fillStyle;
 
-            ctx.shadowBlur = 15;
+            ctx.shadowBlur=15;
 
             ctx.fill();
 
-            ctx.shadowBlur = 0;
+            ctx.shadowBlur=0;
 
-            ctx.lineWidth = 2;
+            ctx.lineWidth=2;
 
-            ctx.strokeStyle =
-              "#fff";
+            ctx.strokeStyle="#fff";
 
             ctx.stroke();
+
           }
         );
+
       }
 
-      drawGameObjects(
-        ctx,
-        state
-      ) {
+      drawGameObjects(ctx,state) {
 
         if (
-          this.gameId === "quest"
+          this.gameId ===
+          "quest"
         ) {
 
           state.crystals.forEach(
@@ -3659,6 +4030,7 @@
                 14,
                 "#57e5ff"
               );
+
             }
           );
 
@@ -3674,8 +4046,7 @@
             );
 
             ctx.rotate(
-              performance.now() /
-                700
+              performance.now()/700
             );
 
             ctx.beginPath();
@@ -3685,7 +4056,7 @@
               0,
               state.portal.radius,
               0,
-              Math.PI * 2
+              Math.PI*2
             );
 
             ctx.fillStyle =
@@ -3694,7 +4065,7 @@
             ctx.shadowColor =
               "#ad7dff";
 
-            ctx.shadowBlur = 24;
+            ctx.shadowBlur=24;
 
             ctx.fill();
 
@@ -3703,10 +4074,9 @@
             ctx.arc(
               0,
               0,
-              state.portal.radius *
-                0.62,
+              state.portal.radius*.62,
               0,
-              Math.PI * 2
+              Math.PI*2
             );
 
             ctx.fillStyle =
@@ -3715,11 +4085,14 @@
             ctx.fill();
 
             ctx.restore();
+
           }
+
         }
 
         if (
-          this.gameId === "treasure"
+          this.gameId ===
+          "treasure"
         ) {
 
           state.treasures.forEach(
@@ -3729,17 +4102,19 @@
                 ctx,
                 treasure.x,
                 treasure.y,
-                13 +
-                  treasure.value *
-                    2,
+                13+
+                treasure.value*2,
                 "#ffd35f"
               );
+
             }
           );
+
         }
 
         if (
-          this.gameId === "brawl"
+          this.gameId ===
+          "brawl"
         ) {
 
           state.enemies
@@ -3757,7 +4132,7 @@
                   enemy.y,
                   enemy.radius,
                   0,
-                  Math.PI * 2
+                  Math.PI*2
                 );
 
                 ctx.fillStyle =
@@ -3766,16 +4141,15 @@
                 ctx.shadowColor =
                   "#ff6e97";
 
-                ctx.shadowBlur = 14;
+                ctx.shadowBlur=14;
 
                 ctx.fill();
 
-                ctx.shadowBlur = 0;
+                ctx.shadowBlur=0;
 
-                ctx.lineWidth = 3;
+                ctx.lineWidth=3;
 
-                ctx.strokeStyle =
-                  "#fff";
+                ctx.strokeStyle="#fff";
 
                 ctx.stroke();
 
@@ -3789,18 +4163,19 @@
                   "center";
 
                 ctx.fillText(
-                  String(
-                    enemy.health
-                  ),
+                  String(enemy.health),
                   enemy.x,
-                  enemy.y + 4
+                  enemy.y+4
                 );
+
               }
             );
+
         }
 
         if (
-          this.gameId === "boss"
+          this.gameId ===
+          "boss"
         ) {
 
           const boss =
@@ -3824,7 +4199,7 @@
             0,
             boss.radius,
             0,
-            Math.PI * 2
+            Math.PI*2
           );
 
           ctx.fillStyle =
@@ -3833,13 +4208,13 @@
           ctx.shadowColor =
             "#ff6e97";
 
-          ctx.shadowBlur = 26;
+          ctx.shadowBlur=26;
 
           ctx.fill();
 
-          ctx.shadowBlur = 0;
+          ctx.shadowBlur=0;
 
-          ctx.lineWidth = 5;
+          ctx.lineWidth=5;
 
           ctx.strokeStyle =
             "#ffb0c5";
@@ -3847,36 +4222,33 @@
           ctx.stroke();
 
           for (
-            let i = 0;
-            i < 6;
+            let i=0;
+            i<6;
             i++
           ) {
 
             const angle =
-              i *
-              Math.PI /
-              3;
+              i*Math.PI/3;
 
             ctx.beginPath();
 
             ctx.arc(
-              Math.cos(angle) *
-                boss.radius *
-                0.56,
+              Math.cos(angle)*
+              boss.radius*.56,
 
-              Math.sin(angle) *
-                boss.radius *
-                0.56,
+              Math.sin(angle)*
+              boss.radius*.56,
 
               7,
               0,
-              Math.PI * 2
+              Math.PI*2
             );
 
             ctx.fillStyle =
               "#ffd35f";
 
             ctx.fill();
+
           }
 
           ctx.restore();
@@ -3884,14 +4256,20 @@
           const weak =
             state.bossWeakPoint;
 
-          this.drawDiamond(
-            ctx,
-            weak.x,
-            weak.y,
-            weak.radius,
-            "#90ff6b"
-          );
+          if (weak) {
+
+            this.drawDiamond(
+              ctx,
+              weak.x,
+              weak.y,
+              weak.radius,
+              "#90ff6b"
+            );
+
+          }
+
         }
+
       }
 
       drawDiamond(
@@ -3901,6 +4279,7 @@
         radius,
         color
       ) {
+
         ctx.save();
 
         ctx.translate(
@@ -3909,8 +4288,7 @@
         );
 
         ctx.rotate(
-          performance.now() /
-            650
+          performance.now()/650
         );
 
         ctx.beginPath();
@@ -3943,26 +4321,24 @@
         ctx.shadowColor =
           color;
 
-        ctx.shadowBlur = 18;
+        ctx.shadowBlur=18;
 
         ctx.fill();
 
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur=0;
 
-        ctx.lineWidth = 2;
+        ctx.lineWidth=2;
 
-        ctx.strokeStyle =
-          "#fff";
+        ctx.strokeStyle="#fff";
 
         ctx.stroke();
 
         ctx.restore();
+
       }
 
-      drawPlayer(
-        ctx,
-        state
-      ) {
+      drawPlayer(ctx,state) {
+
         const player =
           state.playerEntity;
 
@@ -3980,7 +4356,7 @@
           0,
           player.radius,
           0,
-          Math.PI * 2
+          Math.PI*2
         );
 
         ctx.fillStyle =
@@ -3989,33 +4365,28 @@
         ctx.shadowColor =
           player.color;
 
-        ctx.shadowBlur = 20;
+        ctx.shadowBlur=20;
 
         ctx.fill();
 
-        ctx.shadowBlur = 0;
+        ctx.shadowBlur=0;
 
-        ctx.lineWidth = 4;
+        ctx.lineWidth=4;
 
         ctx.strokeStyle =
           "#f7fbff";
 
         ctx.stroke();
 
-        /*
-          Player eye indicates
-          virtual camera heading.
-        */
-
         const lookX =
           Math.sin(
             this.camera.angle
-          ) * 9;
+          )*9;
 
         const lookY =
           -Math.cos(
             this.camera.angle
-          ) * 9;
+          )*9;
 
         ctx.beginPath();
 
@@ -4024,7 +4395,7 @@
           lookY,
           5,
           0,
-          Math.PI * 2
+          Math.PI*2
         );
 
         ctx.fillStyle =
@@ -4042,21 +4413,21 @@
           ctx.arc(
             0,
             0,
-            player.radius +
-              17,
+            player.radius+17,
             0,
-            Math.PI * 2
+            Math.PI*2
           );
 
-          ctx.strokeStyle =
-            "#fff";
+          ctx.strokeStyle="#fff";
 
-          ctx.lineWidth = 4;
+          ctx.lineWidth=4;
 
           ctx.stroke();
+
         }
 
         ctx.restore();
+
       }
 
       drawScreenEffects(
@@ -4067,7 +4438,8 @@
       ) {
 
         if (
-          this.gameId === "boss"
+          this.gameId ===
+          "boss"
         ) {
 
           const ratio =
@@ -4080,46 +4452,966 @@
           ctx.fillRect(
             16,
             16,
-            width - 32,
+            width-32,
             12
           );
 
           ctx.fillStyle =
-            ratio > 0.45
+            ratio>.45
               ? "#90ff6b"
               : "#ff6e97";
 
           ctx.fillRect(
             16,
             16,
-            (width - 32) *
-              ratio,
+            (width-32)*ratio,
             12
           );
 
           ctx.strokeStyle =
             "rgba(255,255,255,.6)";
 
-          ctx.lineWidth = 1;
-
           ctx.strokeRect(
             16,
             16,
-            width - 32,
+            width-32,
             12
           );
+
         }
+
       }
 
-      updateHUD() {
+      /*
+      ----------------------------------------------------------
+      ENGINE FINISH
+      ----------------------------------------------------------
+      */
+
+      finish(victory) {
+
         const state =
-          this.gameState;
+          this.state;
+
+        if (
+          !state ||
+          !state.active
+        ) {
+          return;
+        }
+
+        state.active = false;
+
+        this.stop();
+
+        const elapsed =
+          Math.round(
+            (
+              this.config.duration -
+              state.timeLeft
+            )/1000
+          );
+
+        let score =
+          state.score;
+
+        if (
+          this.gameId ===
+          "trail2"
+        ) {
+
+          score =
+            victory
+              ? 100
+              : Math.max(
+                  0,
+                  elapsed*2+
+                  state.score
+                );
+
+        }
+
+        if (
+          this.gameId ===
+          "quest" &&
+          state.collected>=5
+        ) {
+
+          score += 10;
+
+        }
+
+        if (
+          this.gameId ===
+          "boss" &&
+          victory
+        ) {
+
+          score += 20;
+
+        }
+
+        this.onFinish?.({
+
+          player: this.player,
+          score,
+          victory,
+          elapsed
+
+        });
+
+      }
+
+      toast(message) {
+
+        this.onToast?.(
+          message
+        );
+
+      }
+
+    }
+
+    /*
+    ============================================================
+    THUMB ARENA CONSOLE
+    ============================================================
+    */
+
+    class ThumbArenaConsole {
+
+      constructor() {
+
+        this.storage =
+          loadStorage();
+
+        this.audio =
+          new AudioManager(
+            this.storage
+          );
+
+        this.players =
+          safeParsePlayers();
+
+        this.currentGameId =
+          this.getRequestedGame();
+
+        this.currentConfig =
+          GAME_CONFIGS[
+            this.currentGameId
+          ];
+
+        this.currentPlayerIndex = 0;
+
+        this.turnResults = [];
+
+        this.engine = null;
+
+        this.app =
+          document.querySelector(
+            "#app"
+          );
+
+        this.toastTimer = null;
+
+        document.addEventListener(
+          "contextmenu",
+          event =>
+            event.preventDefault()
+        );
+
+        this.renderConsole();
+
+        /*
+          If ?game=quest was supplied,
+          launch that cartridge.
+          Otherwise show the console.
+        */
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+        if (params.get("game")) {
+
+          setTimeout(
+            () =>
+              this.openGame(
+                this.currentGameId
+              ),
+            0
+          );
+
+        }
+
+      }
+
+      getRequestedGame() {
+
+        const params =
+          new URLSearchParams(
+            window.location.search
+          );
+
+        const id =
+          params.get("game");
+
+        return GAME_CONFIGS[id]
+          ? id
+          : "quest";
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      CONSOLE
+      ----------------------------------------------------------
+      */
+
+      renderConsole() {
+
+        this.app.innerHTML = `
+
+          <main class="screen active">
+
+            <header class="console-header">
+
+              <div class="brand">
+
+                <small>
+                  T-ENGINE CONSOLE
+                </small>
+
+                <strong>
+                  THUMB ARENA
+                </strong>
+
+              </div>
+
+              <div class="profile-chip">
+
+                <b id="consoleLevel">
+                  LV ${this.storage.arenaProfile.level}
+                </b>
+
+                ${this.escape(
+                  this.storage.arenaProfile.selectedTitle
+                )}
+
+              </div>
+
+            </header>
+
+            <div class="console-body">
+
+              <div class="section-label">
+                Cartridges
+              </div>
+
+              <section
+                id="cartridgeGrid"
+                class="cartridge-grid"
+              ></section>
+
+              <section class="console-panel">
+
+                <div class="console-panel-title">
+                  LOCAL PROFILE
+                </div>
+
+                <div class="console-stats">
+
+                  <div class="stat">
+
+                    <b id="profileXP">
+                      ${this.storage.arenaProfile.xp}
+                    </b>
+
+                    <span>XP</span>
+
+                  </div>
+
+                  <div class="stat">
+
+                    <b>
+                      ${this.players.length}
+                    </b>
+
+                    <span>PLAYERS</span>
+
+                  </div>
+
+                  <div class="stat">
+
+                    <b>
+                      ${Object.values(
+                        this.storage
+                          .arenaProfile
+                          .records
+                      ).reduce(
+                        (sum,value) =>
+                          sum +
+                          Number(value||0),
+                        0
+                      )}
+                    </b>
+
+                    <span>RECORD PTS</span>
+
+                  </div>
+
+                </div>
+
+                <div class="console-actions">
+
+                  <button
+                    id="resetButton"
+                    class="btn dark"
+                  >
+                    RESET LOCAL PROFILE
+                  </button>
+
+                </div>
+
+              </section>
+
+            </div>
+
+          </main>
+
+        `;
+
+        this.renderCartridges();
+
+        document
+          .querySelector(
+            "#resetButton"
+          )
+          .onclick = () => {
+
+            if (
+              confirm(
+                "Reset local Thumb Arena progression?"
+              )
+            ) {
+
+              localStorage.removeItem(
+                SAVE_KEY
+              );
+
+              this.storage =
+                loadStorage();
+
+              this.renderConsole();
+
+            }
+
+          };
+
+      }
+
+      renderCartridges() {
+
+        const grid =
+          document.querySelector(
+            "#cartridgeGrid"
+          );
+
+        const recordMap = {
+
+          trail2:
+            "trailDuel2",
+
+          quest:
+            "miniQuest",
+
+          brawl:
+            "arenaBrawl",
+
+          treasure:
+            "treasureRun",
+
+          boss:
+            "bossBreak"
+
+        };
+
+        grid.innerHTML =
+          Object.entries(
+            GAME_CONFIGS
+          )
+          .map(
+            ([id,config]) => {
+
+              const record =
+                this.storage
+                  .arenaProfile
+                  .records[
+                    recordMap[id]
+                  ] || 0;
+
+              return `
+
+                <button
+                  class="cartridge"
+                  data-game="${id}"
+                  style="border-color:${config.color}55"
+                >
+
+                  <span
+                    class="cartridge-icon"
+                    style="color:${config.color}"
+                  >
+                    ${config.icon}
+                  </span>
+
+                  <span class="cartridge-title">
+                    ${this.escape(
+                      config.title
+                    )}
+                  </span>
+
+                  <span class="cartridge-description">
+                    ${this.escape(
+                      config.description
+                    )}
+                  </span>
+
+                  <span class="cartridge-record">
+                    RECORD ${record}
+                  </span>
+
+                </button>
+
+              `;
+
+            }
+          )
+          .join("");
+
+        grid
+          .querySelectorAll(
+            "[data-game]"
+          )
+          .forEach(button => {
+
+            button.onclick = () => {
+
+              this.audio.play(
+                "click"
+              );
+
+              this.openGame(
+                button.dataset.game
+              );
+
+            };
+
+          });
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      GAME SHELL
+      ----------------------------------------------------------
+      */
+
+      openGame(gameId) {
+
+        if (
+          !GAME_CONFIGS[gameId]
+        ) {
+          return;
+        }
+
+        this.currentGameId =
+          gameId;
+
+        this.currentConfig =
+          GAME_CONFIGS[gameId];
+
+        this.currentPlayerIndex = 0;
+
+        this.turnResults = [];
+
+        this.app.innerHTML = `
+
+          <main class="screen active game-screen">
+
+            <div class="hud">
+
+              <div class="hud-left">
+
+                <span class="hud-label">
+                  ${this.escape(
+                    this.currentConfig.title
+                  )}
+                </span>
+
+                <span
+                  id="hudValue"
+                  class="hud-value"
+                >
+                  Preparing T-Engine…
+                </span>
+
+                <span
+                  id="headingValue"
+                  class="heading"
+                >
+                  LOOK: NORTH ↑ • ENGINE READY
+                </span>
+
+              </div>
+
+              <button
+                id="exitButton"
+                class="icon-btn"
+                aria-label="Exit game"
+              >
+                ✕
+              </button>
+
+            </div>
+
+            <section
+              id="gameArea"
+              class="game-shell"
+            >
+
+              <canvas
+                id="gameCanvas"
+              ></canvas>
+
+            </section>
+
+          </main>
+
+        `;
+
+        document
+          .querySelector(
+            "#exitButton"
+          )
+          .onclick = () => {
+
+            this.stopEngine();
+
+            this.showConsole();
+
+          };
+
+        this.showIntro();
+
+      }
+
+      showIntro() {
+
+        const area =
+          document.querySelector(
+            "#gameArea"
+          );
+
+        if (!area) {
+          return;
+        }
+
+        const overlay =
+          document.createElement(
+            "div"
+          );
+
+        overlay.className =
+          "overlay";
+
+        overlay.innerHTML = `
+
+          <div class="overlay-card">
+
+            <div
+              style="
+                font-size:3.1rem;
+                margin-bottom:3px
+              "
+            >
+              ${this.currentConfig.icon}
+            </div>
+
+            <h1>
+              ${this.escape(
+                this.currentConfig.title
+              )}
+            </h1>
+
+            <p>
+              ${this.escape(
+                this.currentConfig.description
+              )}
+            </p>
+
+            <p style="font-size:.8rem">
+
+              T-Engine provides the
+              movement, physics, camera,
+              multidirectional tunnel,
+              depth grid, collision,
+              and world system.
+
+              The console remains
+              outside the engine.
+
+            </p>
+
+            <button
+              id="startButton"
+              class="btn"
+            >
+              START
+            </button>
+
+            <div style="height:10px"></div>
+
+            <button
+              id="backButton"
+              class="btn dark"
+            >
+              RETURN TO CONSOLE
+            </button>
+
+          </div>
+
+        `;
+
+        area.appendChild(
+          overlay
+        );
+
+        overlay
+          .querySelector(
+            "#startButton"
+          )
+          .onclick = () => {
+
+            overlay.remove();
+
+            this.audio.play(
+              "start"
+            );
+
+            this.startNextPlayer();
+
+          };
+
+        overlay
+          .querySelector(
+            "#backButton"
+          )
+          .onclick = () => {
+
+            this.showConsole();
+
+          };
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      PASS & PLAY
+      ----------------------------------------------------------
+      */
+
+      startNextPlayer() {
+
+        if (
+          this.currentPlayerIndex >=
+          this.players.length
+        ) {
+
+          this.finishGame();
+
+          return;
+
+        }
+
+        const player =
+          this.players[
+            this.currentPlayerIndex
+          ];
+
+        this.showPassOverlay(
+          player,
+          () =>
+            this.beginTurn(player)
+        );
+
+      }
+
+      showPassOverlay(
+        player,
+        onReady
+      ) {
+
+        const area =
+          document.querySelector(
+            "#gameArea"
+          );
+
+        const overlay =
+          document.createElement(
+            "div"
+          );
+
+        overlay.className =
+          "overlay";
+
+        overlay.innerHTML = `
+
+          <div class="overlay-card">
+
+            <div class="hud-label">
+              T-ENGINE PASS & PLAY
+            </div>
+
+            <h2
+              style="color:${player.color}"
+            >
+              PASS TO
+              ${this.escape(
+                player.name.toUpperCase()
+              )}
+            </h2>
+
+            <p>
+
+              The T-Engine world will
+              remain isolated to the
+              game viewport.
+
+              Move with eight directions
+              and control the virtual
+              camera.
+
+            </p>
+
+            <button
+              id="readyButton"
+              class="btn"
+            >
+              TAP WHEN READY
+            </button>
+
+          </div>
+
+        `;
+
+        area.appendChild(
+          overlay
+        );
+
+        overlay
+          .querySelector(
+            "#readyButton"
+          )
+          .onclick = () => {
+
+            overlay.remove();
+
+            onReady();
+
+          };
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      ENGINE SESSION
+      ----------------------------------------------------------
+      */
+
+      beginTurn(player) {
+
+        this.stopEngine();
+
+        const area =
+          document.querySelector(
+            "#gameArea"
+          );
+
+        const canvas =
+          document.querySelector(
+            "#gameCanvas"
+          );
+
+        this.engine =
+          new TEngineWorld({
+
+            canvas,
+            area,
+
+            config:
+              this.currentConfig,
+
+            gameId:
+              this.currentGameId,
+
+            player,
+
+            audio:
+              this.audio
+
+          });
+
+        this.engine.start(
+
+          result =>
+            this.onTurnFinished(
+              result
+            ),
+
+          message =>
+            this.showToast(
+              message
+            )
+
+        );
+
+        this.updateHUD();
+
+        this.hudTimer =
+          setInterval(
+            () =>
+              this.updateHUD(),
+            200
+          );
+
+      }
+
+      stopEngine() {
+
+        clearInterval(
+          this.hudTimer
+        );
+
+        this.hudTimer = null;
+
+        if (this.engine) {
+
+          this.engine.destroy();
+
+          this.engine = null;
+
+        }
+
+      }
+
+      onTurnFinished(result) {
+
+        this.stopEngine();
+
+        const player =
+          result.player;
+
+        this.turnResults.push({
+
+          playerId:
+            player.id,
+
+          name:
+            player.name,
+
+          color:
+            player.color,
+
+          score:
+            result.score,
+
+          detail:
+            `${result.score} points`
+
+        });
+
+        this.updateLocalRecords(
+          result.score
+        );
+
+        this.currentPlayerIndex++;
+
+        setTimeout(
+          () =>
+            this.startNextPlayer(),
+          650
+        );
+
+      }
+
+      /*
+      ----------------------------------------------------------
+      HUD
+      ----------------------------------------------------------
+      */
+
+      updateHUD() {
+
+        if (!this.engine) {
+          return;
+        }
+
+        const state =
+          this.engine.state;
+
+        if (!state) {
+          return;
+        }
 
         const seconds =
           Math.ceil(
-            state.timeLeft /
-              1000
+            state.timeLeft/1000
           );
+
+        let text =
+          `${seconds}s • ${state.score} pts`;
+
+        if (
+          this.currentGameId ===
+          "quest"
+        ) {
+
+          text =
+            `${seconds}s • Crystals ${state.collected}/5 • ${state.score} pts`;
+
+        }
+
+        if (
+          this.currentGameId ===
+          "treasure"
+        ) {
+
+          text =
+            `${seconds}s • Carrying ${state.collected} • ${state.score} pts`;
+
+        }
+
+        if (
+          this.currentGameId ===
+          "boss"
+        ) {
+
+          text =
+            `${seconds}s • HP ${"♥".repeat(state.health)} • Boss ${state.boss.health}/${state.boss.maxHealth}`;
+
+        }
+
+        if (
+          this.currentGameId ===
+          "trail2"
+        ) {
+
+          text =
+            `${seconds}s • Trail survival • ${state.score} pts`;
+
+        }
 
         const hud =
           document.querySelector(
@@ -4131,226 +5423,67 @@
             "#headingValue"
           );
 
-        let objectiveText =
-          `${seconds}s • ${state.score} pts`;
+        if (hud) {
 
-        if (
-          this.gameId === "quest"
-        ) {
+          hud.textContent =
+            `${state.player.name} • ${text}`;
 
-          objectiveText =
-            `${seconds}s • Crystals ${state.collected}/5 • ${state.score} pts`;
         }
 
-        if (
-          this.gameId === "treasure"
-        ) {
+        if (heading) {
 
-          objectiveText =
-            `${seconds}s • Carrying ${state.collected} • ${state.score} pts`;
+          heading.textContent =
+            `LOOK: ${this.engine.camera.headingName()} • TUNNEL 3D • ENGINE ACTIVE`;
+
         }
 
-        if (
-          this.gameId === "boss"
-        ) {
-
-          objectiveText =
-            `${seconds}s • HP ${"♥".repeat(state.health)} • Boss ${state.boss.health}/${state.boss.maxHealth}`;
-        }
-
-        if (
-          this.gameId === "trail2"
-        ) {
-
-          objectiveText =
-            `${seconds}s • Trail survival • ${state.score} pts`;
-        }
-
-        hud.textContent =
-          `${state.player.name} • ${objectiveText}`;
-
-        heading.textContent =
-          `LOOK: ${this.camera.headingName()} • TUNNEL 3D`;
       }
 
-      cleanupControls() {
-        this.directionInput?.destroy();
+      /*
+      ----------------------------------------------------------
+      PROFILE
+      ----------------------------------------------------------
+      */
 
-        this.directionInput = null;
+      updateLocalRecords(score) {
 
-        this.actionButton?.remove();
-
-        this.actionButton = null;
-      }
-
-      stop() {
-        cancelAnimationFrame(
-          this.frame
-        );
-
-        if (
-          this.gameState
-        ) {
-          this.gameState.active =
-            false;
-        }
-
-        this.cleanupControls();
-      }
-
-      finishTurn(
-        victory
-      ) {
-        const state =
-          this.gameState;
-
-        if (
-          !state ||
-          !state.active
-        ) {
-          return;
-        }
-
-        state.active = false;
-
-        cancelAnimationFrame(
-          this.frame
-        );
-
-        const player =
-          state.player;
-
-        const elapsed =
-          Math.round(
-            (
-              this.config.duration -
-              state.timeLeft
-            ) /
-              1000
-          );
-
-        let finalScore =
-          state.score;
-
-        if (
-          this.gameId === "trail2"
-        ) {
-
-          finalScore =
-            victory
-              ? 100
-              : Math.max(
-                  0,
-                  elapsed * 2 +
-                    state.score
-                );
-        }
-
-        if (
-          this.gameId === "quest" &&
-          state.collected >= 5 &&
-          state.portal.active
-        ) {
-          finalScore += 10;
-        }
-
-        if (
-          this.gameId === "boss" &&
-          victory
-        ) {
-          finalScore += 20;
-        }
-
-        this.turnResults.push({
-          playerId: player.id,
-          name: player.name,
-          color: player.color,
-          score: finalScore,
-          detail:
-            `${finalScore} points`
-        });
-
-        this.updateLocalRecords(
-          finalScore
-        );
-
-        this.cleanupControls();
-
-        this.currentPlayerIndex += 1;
-
-        setTimeout(
-          () =>
-            this.startNextPlayer(),
-          650
-        );
-      }
-
-      updateLocalRecords(
-        score
-      ) {
         const records =
           this.storage
             .arenaProfile
             .records;
 
-        if (
-          this.gameId === "trail2"
-        ) {
+        const recordMap = {
 
-          records.trailDuel2 =
+          trail2:
+            "trailDuel2",
+
+          quest:
+            "miniQuest",
+
+          brawl:
+            "arenaBrawl",
+
+          treasure:
+            "treasureRun",
+
+          boss:
+            "bossBreak"
+
+        };
+
+        const key =
+          recordMap[
+            this.currentGameId
+          ];
+
+        if (key) {
+
+          records[key] =
             Math.max(
-              records.trailDuel2 ||
-                0,
+              Number(records[key] || 0),
               score
             );
-        }
 
-        if (
-          this.gameId === "quest"
-        ) {
-
-          records.miniQuest =
-            Math.max(
-              records.miniQuest ||
-                0,
-              score
-            );
-        }
-
-        if (
-          this.gameId === "brawl"
-        ) {
-
-          records.arenaBrawl =
-            Math.max(
-              records.arenaBrawl ||
-                0,
-              score
-            );
-        }
-
-        if (
-          this.gameId === "treasure"
-        ) {
-
-          records.treasureRun =
-            Math.max(
-              records.treasureRun ||
-                0,
-              score
-            );
-        }
-
-        if (
-          this.gameId === "boss"
-        ) {
-
-          records.bossBreak =
-            Math.max(
-              records.bossBreak ||
-                0,
-              score
-            );
         }
 
         this.storage
@@ -4359,7 +5492,7 @@
           Math.max(
             8,
             Math.round(
-              score * 1.5
+              score*1.5
             )
           );
 
@@ -4371,9 +5504,8 @@
             Math.floor(
               this.storage
                 .arenaProfile
-                .xp /
-                100
-            ) + 1
+                .xp/100
+            )+1
           );
 
         if (
@@ -4386,36 +5518,48 @@
             .arenaProfile
             .selectedTitle =
             "Storm Master";
+
         }
 
         saveStorage(
           this.storage
         );
+
       }
 
+      /*
+      ----------------------------------------------------------
+      RESULTS
+      ----------------------------------------------------------
+      */
+
       finishGame() {
-        this.stop();
+
+        this.stopEngine();
 
         const results =
           [...this.turnResults]
-            .sort(
-              (a, b) =>
-                b.score -
-                a.score
-            )
-            .map(
-              (
-                result,
-                index
-              ) => ({
-                ...result,
+          .sort(
+            (a,b) =>
+              b.score-a.score
+          )
+          .map(
+            (result,index) => ({
 
-                detail:
-                  index === 0
-                    ? `${result.score} points • Winner`
-                    : `${result.score} points`
-              })
-            );
+              ...result,
+
+              detail:
+                index === 0
+                  ? `${result.score} points • Winner`
+                  : `${result.score} points`
+
+            })
+          );
+
+        const area =
+          document.querySelector(
+            "#gameArea"
+          );
 
         const overlay =
           document.createElement(
@@ -4426,17 +5570,16 @@
           "overlay";
 
         overlay.innerHTML = `
+
           <div class="overlay-card">
 
-            <div
-              style="font-size:3.4rem"
-            >
+            <div style="font-size:3.4rem">
               🏆
             </div>
 
             <h1>
               ${this.escape(
-                this.config.title
+                this.currentConfig.title
                   .toUpperCase()
               )}
             </h1>
@@ -4444,37 +5587,39 @@
             <p>
               ${this.escape(
                 results[0]?.name ||
-                  "Player"
+                "Player"
               )}
-              wins this T-engine round.
+              wins this round.
             </p>
 
             <div class="rankings">
 
-              ${results.map(
-                (
-                  result,
-                  index
-                ) => `
+              ${
+                results
+                  .map(
+                    (result,index) => `
 
-                <div class="rank">
+                      <div class="rank">
 
-                  <strong>
-                    ${index + 1}.
-                    ${this.escape(
-                      result.name
-                    )}
-                  </strong>
+                        <strong>
+                          ${index+1}.
+                          ${this.escape(
+                            result.name
+                          )}
+                        </strong>
 
-                  <span>
-                    ${this.escape(
-                      result.detail
-                    )}
-                  </span>
+                        <span>
+                          ${this.escape(
+                            result.detail
+                          )}
+                        </span>
 
-                </div>
+                      </div>
 
-              `).join("")}
+                    `
+                  )
+                  .join("")
+              }
 
             </div>
 
@@ -4488,16 +5633,17 @@
             <div style="height:10px"></div>
 
             <button
-              id="arenaButton"
+              id="consoleButton"
               class="btn secondary"
             >
-              RETURN TO ARENA
+              RETURN TO CONSOLE
             </button>
 
           </div>
+
         `;
 
-        this.area.appendChild(
+        area.appendChild(
           overlay
         );
 
@@ -4514,26 +5660,53 @@
             this.turnResults = [];
 
             this.showIntro();
+
           };
 
         overlay
           .querySelector(
-            "#arenaButton"
+            "#consoleButton"
           )
           .onclick = () => {
 
-            this.returnToLauncher();
+            this.showConsole();
+
           };
+
       }
 
-      returnToLauncher() {
-        this.stop();
+      /*
+      ----------------------------------------------------------
+      CONSOLE RETURN
+      ----------------------------------------------------------
+      */
 
-        window.location.href =
-          "index.html";
+      showConsole() {
+
+        this.stopEngine();
+
+        this.currentPlayerIndex = 0;
+
+        this.turnResults = [];
+
+        this.renderConsole();
+
+        history.replaceState(
+          null,
+          "",
+          "index.html"
+        );
+
       }
+
+      /*
+      ----------------------------------------------------------
+      TOAST
+      ----------------------------------------------------------
+      */
 
       showToast(message) {
+
         const toast =
           document.querySelector(
             "#toast"
@@ -4557,40 +5730,73 @@
         this.toastTimer =
           setTimeout(
             () => {
+
               toast.classList.remove(
                 "show"
               );
+
             },
             1500
           );
+
       }
 
       escape(value) {
+
         return String(value)
+
           .replace(
             /&/g,
             "&amp;"
           )
+
           .replace(
             /</g,
             "&lt;"
           )
+
           .replace(
             />/g,
             "&gt;"
           )
+
           .replace(
             /"/g,
             "&quot;"
           )
+
           .replace(
             /'/g,
             "&#039;"
           );
+
       }
+
     }
 
-    new TEngineApp();
+    /*
+    ============================================================
+    BOOT
+    ============================================================
+
+    Only the console is created here.
+
+    The T-Engine is instantiated only when a cartridge is
+    actually running.
+
+    Therefore:
+
+      Console exists without T-Engine.
+      Cartridge exists without T-Engine.
+      T-Engine exists only for the active world.
+
+    This is the separation that prevents the movement loop
+    from becoming the application loop.
+    ============================================================
+    */
+
+    new ThumbArenaConsole();
+
   </script>
 </body>
 </html>
